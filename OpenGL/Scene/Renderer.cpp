@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "Triangle.h"
+#include "Cube.h"
 
 Renderer::Renderer(void)
 {
@@ -20,7 +21,7 @@ void Renderer::createModels()
 	clearModels();
 
 	//Add your custom models here.
-	addModel( new Triangle	( this ) );
+	addModel( new Cube	( this ) );
 }
 
 /*!

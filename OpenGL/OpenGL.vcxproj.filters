@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="res">
-      <UniqueIdentifier>{c74a2d2d-a291-45b0-bfe6-2cf8f7090d94}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="res\shaders">
-      <UniqueIdentifier>{a0bdb3ae-bdae-44ed-8208-5fb7e892722d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\vendor">
       <UniqueIdentifier>{75562b69-52fd-4b4a-9df9-77a2c19f65e3}</UniqueIdentifier>
     </Filter>
@@ -99,15 +93,21 @@
     <ClCompile Include="..\GLPIFramework\GLBuffers\VertexBuffer.cpp">
       <Filter>GLPIFramework\GLBuffers</Filter>
     </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Basic.shader">
-      <Filter>res\shaders</Filter>
-    </None>
     <None Include="Shader\BlueTriangleFragment.glsl">
       <Filter>Shader</Filter>
     </None>
     <None Include="Shader\BlueTriangleVertex.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\CubeVertex.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\CubeFragment.glsl">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>
@@ -171,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="..\GLPIFramework\GLBuffers\VertexBufferLayout.h">
       <Filter>GLPIFramework\GLBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Source Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
