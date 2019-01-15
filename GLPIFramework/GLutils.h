@@ -6,7 +6,7 @@
 #include "constant.h"
 #include <string.h>
 #include <stdint.h>
-
+#include <iostream>
 
 #ifdef __APPLE__
     //! Apple iOS Header files for OpenGLES 3.0
@@ -26,6 +26,7 @@
     #define  LOGI(...)  __android_log_print(ANDROID_LOG_INFO, LOG_TAG,__VA_ARGS__)
     #define  LOGE(...)  __android_log_print(ANDROID_LOG_ERROR,LOG_TAG,__VA_ARGS__)
 #else
+#define GLEW_STATIC
 #include <GL/glew.h>
 #define  LOG_TAG    "glOpenGLES3Native"
 #define  LOGI(...)
@@ -39,12 +40,23 @@
 #include "noise.hpp"
 #include "random.hpp"
 #else
+#define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/intersect.hpp>
 #include <glm/gtc/noise.hpp>
 #include <glm/gtc/random.hpp>
 #endif
+
+#define ASSERT(x)    if(!(x)) __debugbreak();
+#define GLCall(x)   GLClearError();\
+                    x;\
+                    ASSERT(GLLogCall(#x, __FILE__, __LINE__));
+
+
+void GLClearError();
+bool GLLogCall(const char* function, const char* file, int line);
+
 
 class GLUtils
 {

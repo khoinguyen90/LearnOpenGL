@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Renderer.h"
+#include "GLutils.h"
 
 class Texture
 {

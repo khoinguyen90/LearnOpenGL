@@ -149,3 +149,22 @@ uint64_t GLUtils::swap_uint64( uint64_t val )
     val = ((val << 16) & 0xFFFF0000FFFF0000ULL ) | ((val >> 16) & 0x0000FFFF0000FFFFULL );
     return (val << 32) | (val >> 32);
 }
+
+
+void GLClearError()
+{
+	while (glGetError() != GL_NO_ERROR) {}
+}
+
+bool GLLogCall(const char* function, const char* file, int line)
+{
+	while (GLenum error = glGetError())
+	{
+		std::cout << "[OpenGL Error] (" << error << " )" << function <<
+			" " << file << ":" << line << std::endl;
+		return false;
+	}
+
+	return true;
+}
+
