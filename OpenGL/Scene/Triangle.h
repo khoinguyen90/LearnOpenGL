@@ -21,6 +21,11 @@ public:
 
     void InitModel();
     void Render();
+
+	virtual void TouchEventDown(float x, float y);
+	virtual void TouchEventMove(float a, float b);
+	virtual void TouchEventRelease(float a, float b);
+	
 };
 
 #endif // SCENEBASIC_H

@@ -23,8 +23,13 @@
 // Namespace used
 using std::ifstream;
 using std::ostringstream;
-GLfloat gTriangleVertices[] = { 0.0f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f };
-GLfloat gTriangleColors[]   = { 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f };
+
+GLfloat vertexAttribute[] = {
+	// Position		// color
+	0.0f, 0.5f,		1.0f, 0.0f, 0.0f,
+	-0.5f, -0.5f,	0.0f, 1.0f, 0.0f,
+	0.5f, -0.5f,	0.0f, 0.0f, 1.0f
+};
 
 // Global Object Declaration
 
@@ -114,32 +119,51 @@ void Triangle::Render()
 {
     glUseProgram( program->ProgramID );
 
-    radian = degree++/57.2957795;
+    //radian = degree++/57.2957795;
     
     // Query and send the uniform variable.
     radianAngle          = glGetUniformLocation(program->ProgramID, "RadianAngle");
     glUniform1f(radianAngle, radian);
 
-    
     positionAttribHandle = ProgramManagerObj->ProgramGetVertexAttribLocation(program,(char*)"VertexPosition");
 	colorAttribHandle    = ProgramManagerObj->ProgramGetVertexAttribLocation(program, (char*)"VertexColor");
     
-	/*unsigned int m_RendererID;
-	glGenBuffers(1, &m_RendererID);
-	glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-
-    glVertexAttribPointer(positionAttribHandle, 2, GL_FLOAT, GL_FALSE, 0, gTriangleVertices);
-    glVertexAttribPointer(colorAttribHandle, 3, GL_FLOAT, GL_FALSE, 0, gTriangleColors);
-
-	glEnableVertexAttribArray(positionAttribHandle);
-	glEnableVertexAttribArray(colorAttribHandle);*/
-	VertexBuffer vb{ gTriangleVertices , sizeof(gTriangleVertices) };
+	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
 	layout.Push<float>(3);
 	VertexArray va;
 	va.AddBuffer(vb, layout);
+	
 	va.Bind();
 
+
+	//glEnableVertexAttribArray(positionAttribHandle);
+	//glEnableVertexAttribArray(colorAttribHandle);
+
+	//glVertexAttribPointer(positionAttribHandle, 2, GL_FLOAT, false, 0, gTriangleVertices);
+	//glVertexAttribPointer(colorAttribHandle, 3, GL_FLOAT, false, 0, gTriangleColors);
+
     glDrawArrays(GL_TRIANGLES, 0, 3);
+}
+
+void Triangle::TouchEventDown(float x, float y)
+{
+	vertexAttribute[1 * 2 + 0] = 1.0; vertexAttribute[1 * 2 + 1] = 0.0; vertexAttribute[1 * 2 + 2] = 0.0;
+	vertexAttribute[2 * 2 + 3] = 1.0; vertexAttribute[2 * 2 + 4] = 0.0; vertexAttribute[2 * 2 + 5] = 0.0;
+	vertexAttribute[3 * 2 + 6] = 1.0; vertexAttribute[3 * 2 + 7] = 0.0; vertexAttribute[3 * 2 + 8] = 0.0;
+}
+
+void Triangle::TouchEventMove(float x, float y)
+{
+	vertexAttribute[1 * 2 + 0] = 0.0; vertexAttribute[1 * 2 + 1] = 1.0; vertexAttribute[1 * 2 + 2] = 0.0;
+	vertexAttribute[2 * 2 + 3] = 0.0; vertexAttribute[2 * 2 + 4] = 1.0; vertexAttribute[2 * 2 + 5] = 0.0;
+	vertexAttribute[3 * 2 + 6] = 0.0; vertexAttribute[3 * 2 + 7] = 1.0; vertexAttribute[3 * 2 + 8] = 0.0;
+}
+
+void Triangle::TouchEventRelease(float x, float y)
+{
+	vertexAttribute[1 * 2 + 0] = 0.0; vertexAttribute[1 * 2 + 1] = 0.0; vertexAttribute[1 * 2 + 2] = 1.0;
+	vertexAttribute[2 * 2 + 3] = 0.0; vertexAttribute[2 * 2 + 4] = 0.0; vertexAttribute[2 * 2 + 5] = 1.0;
+	vertexAttribute[3 * 2 + 6] = 0.0; vertexAttribute[3 * 2 + 7] = 0.0; vertexAttribute[3 * 2 + 8] = 1.0;
 }

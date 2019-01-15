@@ -160,3 +160,27 @@ void Renderer::render()
 		RenderMemData.models.at(i)->Render();
 	}
 }
+
+void Renderer::TouchEventDown(float x, float y)
+{
+	for (int i = 0; i < RenderMemData.models.size(); i++)
+	{
+		RenderMemData.models.at(i)->TouchEventDown(x, y);
+	}
+}
+
+void Renderer::TouchEventMove(float x, float y)
+{
+	for (int i = 0; i < RenderMemData.models.size(); i++)
+	{
+		RenderMemData.models.at(i)->TouchEventMove(x, y);
+	}
+}
+
+void Renderer::TouchEventRelease(float x, float y)
+{
+	for (int i = 0; i < RenderMemData.models.size(); i++)
+	{
+		RenderMemData.models.at(i)->TouchEventRelease(x, y);
+	}
+}

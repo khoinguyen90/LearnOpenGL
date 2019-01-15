@@ -3,6 +3,44 @@
 #include <Renderer.h>
 #include <iostream>
 
+bool leftBtnHold = false;
+
+void mouse_position_callback(GLFWwindow* window, double x, double y)
+{
+	if (leftBtnHold == true)
+	{
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		Renderer::Instance().TouchEventMove(xpos, ypos);
+	}
+}
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	{
+		leftBtnHold = true;
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		Renderer::Instance().TouchEventDown(xpos, ypos);
+		// Tap event
+	}
+	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
+	{
+		leftBtnHold = false;
+		// Release event
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);
+		Renderer::Instance().TouchEventRelease(xpos, ypos);
+	}
+}
+
+void GraphicCallbackSetup(GLFWwindow* window)
+{
+	glfwSetMouseButtonCallback(window, mouse_button_callback);
+	glfwSetCursorPosCallback(window, mouse_position_callback);
+}
+
 void GraphicsInit()
 {
 	Renderer::Instance().initializeRenderer();
@@ -51,6 +89,7 @@ int main(void)
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	GraphicCallbackSetup(window);
 	GraphicsInit();
 
 	/* Loop until the user closes the window */

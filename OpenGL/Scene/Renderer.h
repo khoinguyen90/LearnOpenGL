@@ -82,6 +82,10 @@ public:
         static Renderer rendererObj;
         return rendererObj;
     }
+
+	void TouchEventDown(float x, float y);
+	void TouchEventMove(float x, float y);
+	void TouchEventRelease(float x, float y);
 private:
 	//! Map render member variable container
 	RendererData RenderMemData;
