@@ -70,8 +70,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Dependencies\GLFW\Include;$(SolutionDir)Dependencies\GLEW\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)..\Dependencies\GLEW\include;$(ProjectDir)..\Dependencies\GLFW\include;$(ProjectDir)..\GLPIFramework;$(ProjectDir)..\GLPIFramework\Geometry;$(ProjectDir)Scene;$(ProjectDir)..\GLPIFramework\GLBuffers;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Dependencies\GLFW\Libs;$(SolutionDir)Dependencies\GLEW\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir);$(ProjectDir)..\Dependencies\GLEW\include;$(ProjectDir)..\Dependencies\GLFW\include;$(ProjectDir)..\GLPIFramework;$(ProjectDir)..\GLPIFramework\Geometry;$(ProjectDir)Scene;$(ProjectDir)..\GLPIFramework\GLBuffers;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -79,7 +82,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_MBCS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;GLEW_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>glew32s.lib;opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -101,6 +104,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -122,29 +126,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="IndexBuffer.cpp" />
-    <ClCompile Include="LearnOpenGL.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="..\GLPIFramework\Cache.cpp" />
+    <ClCompile Include="..\GLPIFramework\Geometry\Ray.cpp" />
+    <ClCompile Include="..\GLPIFramework\GLBuffers\IndexBuffer.cpp" />
+    <ClCompile Include="..\GLPIFramework\GLBuffers\Texture.cpp" />
+    <ClCompile Include="..\GLPIFramework\GLBuffers\VertexArray.cpp" />
+    <ClCompile Include="..\GLPIFramework\GLBuffers\VertexBuffer.cpp" />
+    <ClCompile Include="..\GLPIFramework\GLutils.cpp" />
+    <ClCompile Include="..\GLPIFramework\Light.cpp" />
+    <ClCompile Include="..\GLPIFramework\Material.cpp" />
+    <ClCompile Include="..\GLPIFramework\Model.cpp" />
+    <ClCompile Include="..\GLPIFramework\ProgramManager.cpp" />
+    <ClCompile Include="..\GLPIFramework\ShaderManager.cpp" />
+    <ClCompile Include="..\GLPIFramework\Transform.cpp" />
+    <ClCompile Include="..\GLPIFramework\WaveFrontOBJ\WaveFrontOBJ.cpp" />
+    <ClCompile Include="OpenGLESLearn.cpp" />
+    <ClCompile Include="Scene\Renderer.cpp" />
+    <ClCompile Include="Scene\Triangle.cpp" />
     <ClCompile Include="stb_image.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="VertexArray.cpp" />
-    <ClCompile Include="VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.shader" />
+    <None Include="Shader\BlueTriangleFragment.glsl" />
+    <None Include="Shader\BlueTriangleVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IndexBuffer.h" />
-    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="..\GLPIFramework\Cache.h" />
+    <ClInclude Include="..\GLPIFramework\Constant.h" />
+    <ClInclude Include="..\GLPIFramework\Geometry\Ray.h" />
+    <ClInclude Include="..\GLPIFramework\GLBuffers\IndexBuffer.h" />
+    <ClInclude Include="..\GLPIFramework\GLBuffers\Texture.h" />
+    <ClInclude Include="..\GLPIFramework\GLBuffers\VertexArray.h" />
+    <ClInclude Include="..\GLPIFramework\GLBuffers\VertexBuffer.h" />
+    <ClInclude Include="..\GLPIFramework\GLBuffers\VertexBufferLayout.h" />
+    <ClInclude Include="..\GLPIFramework\GLutils.h" />
+    <ClInclude Include="..\GLPIFramework\Light.h" />
+    <ClInclude Include="..\GLPIFramework\Material.h" />
+    <ClInclude Include="..\GLPIFramework\Model.h" />
+    <ClInclude Include="..\GLPIFramework\ProgramManager.h" />
+    <ClInclude Include="..\GLPIFramework\ShaderManager.h" />
+    <ClInclude Include="..\GLPIFramework\Transform.h" />
+    <ClInclude Include="..\GLPIFramework\WaveFrontOBJ\WaveFrontOBJ.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Shader.h" />
+    <ClInclude Include="Scene\Renderer.h" />
+    <ClInclude Include="Scene\Triangle.h" />
     <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="VertexArray.h" />
-    <ClInclude Include="VertexBuffer.h" />
-    <ClInclude Include="VertexBufferLayout.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="OpenGL.rc" />

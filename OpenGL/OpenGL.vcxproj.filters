@@ -25,68 +25,152 @@
     <Filter Include="Source Files\vendor\stb_image">
       <UniqueIdentifier>{662629c7-97b9-4c46-ae09-0742e7608f2b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GLPIFramework">
+      <UniqueIdentifier>{d75ece11-8174-4712-a42f-4a6f44e4afe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLPIFramework\WaveFrontOBJ">
+      <UniqueIdentifier>{c7f03af6-9677-4693-b084-781e00325f0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLPIFramework\Geometry">
+      <UniqueIdentifier>{1b97b1de-b79c-44b7-82a5-2628464bb278}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene">
+      <UniqueIdentifier>{fb05fbbf-7df9-4af0-a6be-750deeefd962}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shader">
+      <UniqueIdentifier>{5fe20c7c-8581-4975-823d-bee677d06c58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GLPIFramework\GLBuffers">
+      <UniqueIdentifier>{9bf1599f-7d3a-48a2-9a3c-34df4aaad80a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IndexBuffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexArray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>Source Files\vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="Texture.cpp">
+    <ClCompile Include="..\GLPIFramework\Cache.cpp">
+      <Filter>GLPIFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\GLutils.cpp">
+      <Filter>GLPIFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\Light.cpp">
+      <Filter>GLPIFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\Material.cpp">
+      <Filter>GLPIFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\Model.cpp">
+      <Filter>GLPIFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\ProgramManager.cpp">
+      <Filter>GLPIFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\ShaderManager.cpp">
+      <Filter>GLPIFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\Transform.cpp">
+      <Filter>GLPIFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\WaveFrontOBJ\WaveFrontOBJ.cpp">
+      <Filter>GLPIFramework\WaveFrontOBJ</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\Geometry\Ray.cpp">
+      <Filter>GLPIFramework\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLESLearn.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LearnOpenGL.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Scene\Renderer.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Triangle.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\GLBuffers\IndexBuffer.cpp">
+      <Filter>GLPIFramework\GLBuffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\GLBuffers\Texture.cpp">
+      <Filter>GLPIFramework\GLBuffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\GLBuffers\VertexArray.cpp">
+      <Filter>GLPIFramework\GLBuffers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GLPIFramework\GLBuffers\VertexBuffer.cpp">
+      <Filter>GLPIFramework\GLBuffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.shader">
       <Filter>res\shaders</Filter>
     </None>
+    <None Include="Shader\BlueTriangleFragment.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\BlueTriangleVertex.glsl">
+      <Filter>Shader</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Renderer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBuffer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexArray.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexBufferLayout.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>Source Files\vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\Cache.h">
+      <Filter>GLPIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\Constant.h">
+      <Filter>GLPIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\GLutils.h">
+      <Filter>GLPIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\Light.h">
+      <Filter>GLPIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\Material.h">
+      <Filter>GLPIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\Model.h">
+      <Filter>GLPIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\ProgramManager.h">
+      <Filter>GLPIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\ShaderManager.h">
+      <Filter>GLPIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\Transform.h">
+      <Filter>GLPIFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\WaveFrontOBJ\WaveFrontOBJ.h">
+      <Filter>GLPIFramework\WaveFrontOBJ</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\Geometry\Ray.h">
+      <Filter>GLPIFramework\Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Renderer.h">
+      <Filter>Source Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Triangle.h">
+      <Filter>Source Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\GLBuffers\IndexBuffer.h">
+      <Filter>GLPIFramework\GLBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\GLBuffers\Texture.h">
+      <Filter>GLPIFramework\GLBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\GLBuffers\VertexArray.h">
+      <Filter>GLPIFramework\GLBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\GLBuffers\VertexBuffer.h">
+      <Filter>GLPIFramework\GLBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\GLPIFramework\GLBuffers\VertexBufferLayout.h">
+      <Filter>GLPIFramework\GLBuffers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
