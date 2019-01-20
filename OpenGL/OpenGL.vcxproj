@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -151,6 +151,8 @@
     <None Include="Shader\BlueTriangleVertex.glsl" />
     <None Include="Shader\CubeFragment.glsl" />
     <None Include="Shader\CubeVertex.glsl" />
+    <None Include="Shader\SmoothLineFragment.glsl" />
+    <None Include="Shader\SmoothLineVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\GLPIFramework\Cache.h" />

@@ -95,7 +95,7 @@ int main(void)
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-		//glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);

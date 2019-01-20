@@ -26,9 +26,12 @@ using std::ostringstream;
 
 GLfloat vertexAttribute[] = {
 	// Position		// color
-	0.0f, 0.5f,		1.0f, 0.0f, 0.0f,
-	-0.5f, -0.5f,	0.0f, 1.0f, 0.0f,
-	0.5f, -0.5f,	0.0f, 0.0f, 1.0f
+	100.0f, 50.0f, 110.0f, 350.0f, 0.0f, 0.0f, 10.0f,
+	100.0f, 50.0f, 110.0f, 350.0f, 0.0f, 1.0f, 10.0f,
+	100.0f, 50.0f, 110.0f, 350.0f, 1.0f, 0.0f, 10.0f,
+	100.0f, 50.0f, 110.0f, 350.0f, 0.0f, 1.0f, 10.0f,
+	100.0f, 50.0f, 110.0f, 350.0f, 1.0f, 0.0f, 10.0f,
+	100.0f, 50.0f, 110.0f, 350.0f, 1.0f, 1.0f, 10.0f,
 };
 
 // Global Object Declaration
@@ -122,16 +125,24 @@ void Triangle::Render()
     //radian = degree++/57.2957795;
     
     // Query and send the uniform variable.
-    radianAngle          = glGetUniformLocation(program->ProgramID, "RadianAngle");
-    glUniform1f(radianAngle, radian);
+    //radianAngle          = glGetUniformLocation(program->ProgramID, "RadianAngle");
+    //glUniform1f(radianAngle, radian);
 
-    positionAttribHandle = ProgramManagerObj->ProgramGetVertexAttribLocation(program,(char*)"VertexPosition");
-	colorAttribHandle    = ProgramManagerObj->ProgramGetVertexAttribLocation(program, (char*)"VertexColor");
+	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
+	auto antialias = glGetUniformLocation(program->ProgramID, "antialias");
+	
+	glUniform2f(resolution, 800.0f, 600.0f);
+	glUniform1f(antialias, 4.0f);
+
+    //positionAttribHandle = ProgramManagerObj->ProgramGetVertexAttribLocation(program,(char*)"VertexPosition");
+	//colorAttribHandle    = ProgramManagerObj->ProgramGetVertexAttribLocation(program, (char*)"VertexColor");
     
 	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
-	layout.Push<float>(3);
+	layout.Push<float>(2);
+	layout.Push<float>(2);
+	layout.Push<float>(1);
 	VertexArray va;
 	va.AddBuffer(vb, layout);
 	
@@ -144,14 +155,14 @@ void Triangle::Render()
 	//glVertexAttribPointer(positionAttribHandle, 2, GL_FLOAT, false, 0, gTriangleVertices);
 	//glVertexAttribPointer(colorAttribHandle, 3, GL_FLOAT, false, 0, gTriangleColors);
 
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 void Triangle::TouchEventDown(float x, float y)
 {
-	vertexAttribute[1 * 2 + 0] = 1.0; vertexAttribute[1 * 2 + 1] = 0.0; vertexAttribute[1 * 2 + 2] = 0.0;
-	vertexAttribute[2 * 2 + 3] = 1.0; vertexAttribute[2 * 2 + 4] = 0.0; vertexAttribute[2 * 2 + 5] = 0.0;
-	vertexAttribute[3 * 2 + 6] = 1.0; vertexAttribute[3 * 2 + 7] = 0.0; vertexAttribute[3 * 2 + 8] = 0.0;
+	//vertexAttribute[1 * 2 + 0] = 1.0; vertexAttribute[1 * 2 + 1] = 0.0; vertexAttribute[1 * 2 + 2] = 0.0;
+	//vertexAttribute[2 * 2 + 3] = 1.0; vertexAttribute[2 * 2 + 4] = 0.0; vertexAttribute[2 * 2 + 5] = 0.0;
+	//vertexAttribute[3 * 2 + 6] = 1.0; vertexAttribute[3 * 2 + 7] = 0.0; vertexAttribute[3 * 2 + 8] = 0.0;
 }
 
 void Triangle::TouchEventMove(float x, float y)
@@ -163,7 +174,7 @@ void Triangle::TouchEventMove(float x, float y)
 
 void Triangle::TouchEventRelease(float x, float y)
 {
-	vertexAttribute[1 * 2 + 0] = 0.0; vertexAttribute[1 * 2 + 1] = 0.0; vertexAttribute[1 * 2 + 2] = 1.0;
-	vertexAttribute[2 * 2 + 3] = 0.0; vertexAttribute[2 * 2 + 4] = 0.0; vertexAttribute[2 * 2 + 5] = 1.0;
-	vertexAttribute[3 * 2 + 6] = 0.0; vertexAttribute[3 * 2 + 7] = 0.0; vertexAttribute[3 * 2 + 8] = 1.0;
+	//vertexAttribute[1 * 2 + 0] = 0.0; vertexAttribute[1 * 2 + 1] = 0.0; vertexAttribute[1 * 2 + 2] = 1.0;
+	//vertexAttribute[2 * 2 + 3] = 0.0; vertexAttribute[2 * 2 + 4] = 0.0; vertexAttribute[2 * 2 + 5] = 1.0;
+	//vertexAttribute[3 * 2 + 6] = 0.0; vertexAttribute[3 * 2 + 7] = 0.0; vertexAttribute[3 * 2 + 8] = 1.0;
 }

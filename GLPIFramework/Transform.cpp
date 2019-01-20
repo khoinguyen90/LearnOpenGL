@@ -34,18 +34,22 @@ Transform::~Transform(void)
 void Transform::TransformInit( void )
 {
 	memset( &TransformMemData, 0, sizeof( TransformData ) );
+	glEnable(GL_MULTISAMPLE);
 
-	glEnable( GL_DEPTH_TEST );
-	glEnable( GL_CULL_FACE  );
-	glDisable( GL_DITHER );
-	glDepthMask( GL_TRUE );
-	glDepthFunc( GL_LESS );
-	glDepthRangef( 0.0f, 1.0f );
-	glClearDepthf( 1.0f );
-	glCullFace ( GL_BACK );
-	glFrontFace( GL_CCW  );
-	glClearStencil( 0 );
-	glStencilMask( 0xFFFFFFFF );
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//glEnable( GL_DEPTH_TEST );
+	//glEnable( GL_CULL_FACE  );
+	//glDisable( GL_DITHER );
+	//glDepthMask( GL_TRUE );
+	//glDepthFunc( GL_LESS );
+	//glDepthRangef( 0.0f, 1.0f );
+	//glClearDepthf( 1.0f );
+	//glCullFace ( GL_BACK );
+	//glFrontFace( GL_CCW  );
+	//glClearStencil( 0 );
+	//glStencilMask( 0xFFFFFFFF );
 
 	glClear( GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT | GL_COLOR_BUFFER_BIT );
 
