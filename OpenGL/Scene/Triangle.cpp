@@ -24,14 +24,25 @@
 using std::ifstream;
 using std::ostringstream;
 
+//GLfloat vertexAttribute[] = {
+//	// Position		// color
+//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 0.0f, 10.0f,
+//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 1.0f, 10.0f,
+//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 0.0f, 10.0f,
+//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 1.0f, 10.0f,
+//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 0.0f, 10.0f,
+//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 1.0f, 10.0f,
+//};
+
 GLfloat vertexAttribute[] = {
 	// Position		// color
-	100.0f, 50.0f, 110.0f, 350.0f, 0.0f, 0.0f, 10.0f,
-	100.0f, 50.0f, 110.0f, 350.0f, 0.0f, 1.0f, 10.0f,
-	100.0f, 50.0f, 110.0f, 350.0f, 1.0f, 0.0f, 10.0f,
-	100.0f, 50.0f, 110.0f, 350.0f, 0.0f, 1.0f, 10.0f,
-	100.0f, 50.0f, 110.0f, 350.0f, 1.0f, 0.0f, 10.0f,
-	100.0f, 50.0f, 110.0f, 350.0f, 1.0f, 1.0f, 10.0f,
+	 300.0f,  300.0f,
+	-300.0f,  300.0f,
+	-300.0f, -300.0f,
+
+	 300.0f,  300.0f,
+	-300.0f, -300.0f,
+	 300.0f, -300.0f
 };
 
 // Global Object Declaration
@@ -129,10 +140,10 @@ void Triangle::Render()
     //glUniform1f(radianAngle, radian);
 
 	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
-	auto antialias = glGetUniformLocation(program->ProgramID, "antialias");
-	
+	//auto antialias = glGetUniformLocation(program->ProgramID, "antialias");
+	//
 	glUniform2f(resolution, 800.0f, 600.0f);
-	glUniform1f(antialias, 4.0f);
+	//glUniform1f(antialias, 4.0f);
 
     //positionAttribHandle = ProgramManagerObj->ProgramGetVertexAttribLocation(program,(char*)"VertexPosition");
 	//colorAttribHandle    = ProgramManagerObj->ProgramGetVertexAttribLocation(program, (char*)"VertexColor");
@@ -140,9 +151,9 @@ void Triangle::Render()
 	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
-	layout.Push<float>(2);
-	layout.Push<float>(2);
-	layout.Push<float>(1);
+	//layout.Push<float>(2);
+	//layout.Push<float>(2);
+	//layout.Push<float>(1);
 	VertexArray va;
 	va.AddBuffer(vb, layout);
 	

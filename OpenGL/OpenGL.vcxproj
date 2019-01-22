@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{E3A263F3-2F72-4C4F-BD65-00F1D35C4315}</ProjectGuid>
     <RootNamespace>OpenGL</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -140,6 +140,7 @@
     <ClCompile Include="..\GLPIFramework\ShaderManager.cpp" />
     <ClCompile Include="..\GLPIFramework\Transform.cpp" />
     <ClCompile Include="..\GLPIFramework\WaveFrontOBJ\WaveFrontOBJ.cpp" />
+    <ClCompile Include="FrameBufferMsaa.cpp" />
     <ClCompile Include="OpenGLESLearn.cpp" />
     <ClCompile Include="Cube.cpp" />
     <ClCompile Include="Scene\Renderer.cpp" />
@@ -147,6 +148,10 @@
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shader\11.aa_post.fs" />
+    <None Include="Shader\11.aa_post.vs" />
+    <None Include="Shader\11.anti_aliasing.fs" />
+    <None Include="Shader\11.anti_aliasing.vs" />
     <None Include="Shader\BlueTriangleFragment.glsl" />
     <None Include="Shader\BlueTriangleVertex.glsl" />
     <None Include="Shader\CubeFragment.glsl" />
@@ -172,6 +177,13 @@
     <ClInclude Include="..\GLPIFramework\Transform.h" />
     <ClInclude Include="..\GLPIFramework\WaveFrontOBJ\WaveFrontOBJ.h" />
     <ClInclude Include="Cube.h" />
+    <ClInclude Include="learnopengl\camera.h" />
+    <ClInclude Include="learnopengl\filesystem.h" />
+    <ClInclude Include="learnopengl\mesh.h" />
+    <ClInclude Include="learnopengl\model.h" />
+    <ClInclude Include="learnopengl\shader.h" />
+    <ClInclude Include="learnopengl\shader_m.h" />
+    <ClInclude Include="learnopengl\shader_s.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\Renderer.h" />
     <ClInclude Include="Scene\Triangle.h" />

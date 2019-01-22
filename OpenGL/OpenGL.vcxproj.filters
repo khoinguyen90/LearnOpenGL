@@ -37,6 +37,9 @@
     <Filter Include="GLPIFramework\GLBuffers">
       <UniqueIdentifier>{9bf1599f-7d3a-48a2-9a3c-34df4aaad80a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\includes">
+      <UniqueIdentifier>{6fdd2b33-30f8-4abc-8a10-93cab99e6f8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stb_image.cpp">
@@ -96,6 +99,9 @@
     <ClCompile Include="Cube.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="FrameBufferMsaa.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\BlueTriangleFragment.glsl">
@@ -108,6 +114,20 @@
       <Filter>Shader</Filter>
     </None>
     <None Include="Shader\CubeFragment.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\SmoothLineFragment.glsl" />
+    <None Include="Shader\SmoothLineVertex.glsl" />
+    <None Include="Shader\11.aa_post.fs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\11.aa_post.vs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\11.anti_aliasing.fs">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\11.anti_aliasing.vs">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>
@@ -174,6 +194,27 @@
     </ClInclude>
     <ClInclude Include="Cube.h">
       <Filter>Source Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="learnopengl\camera.h">
+      <Filter>Source Files\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="learnopengl\filesystem.h">
+      <Filter>Source Files\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="learnopengl\mesh.h">
+      <Filter>Source Files\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="learnopengl\model.h">
+      <Filter>Source Files\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="learnopengl\shader.h">
+      <Filter>Source Files\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="learnopengl\shader_m.h">
+      <Filter>Source Files\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="learnopengl\shader_s.h">
+      <Filter>Source Files\includes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
