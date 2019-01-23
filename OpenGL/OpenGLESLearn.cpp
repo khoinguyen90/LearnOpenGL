@@ -58,7 +58,7 @@ void GraphicsRender()
 }
 
 #define SCREEN_WIDTH	800
-#define SCREEN_HEIGHT	600
+#define SCREEN_HEIGHT	800
 
 int main(void)
 {
@@ -95,7 +95,7 @@ int main(void)
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
 		/* Render here */
 		glClear(GL_COLOR_BUFFER_BIT);

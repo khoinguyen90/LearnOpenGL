@@ -1,4 +1,4 @@
-#include "Triangle.h"
+#include "Line.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -16,23 +16,23 @@
 #define VERTEX_SHADER_PRG			( char * )"BlueTriangleVertex.glsl"
 #define FRAGMENT_SHADER_PRG			( char * )"BlueTriangleFragment.glsl"
 #else
-#define VERTEX_SHADER_PRG			( char * )"shader/BlueTriangleVertex.glsl"
-#define FRAGMENT_SHADER_PRG			( char * )"shader/BlueTriangleFragment.glsl"
+#define VERTEX_SHADER_PRG			( char * )"shader/LineVertex.glsl"
+#define FRAGMENT_SHADER_PRG			( char * )"shader/LineFragment.glsl"
 #endif
 
 // Namespace used
 using std::ifstream;
 using std::ostringstream;
 
-//GLfloat vertexAttribute[] = {
-//	// Position		// color
-//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 0.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 1.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 0.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 1.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 0.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 1.0f, 10.0f,
-//};
+GLfloat vertexAttribute[] = {
+	// Position		// color
+	100.0f, 50.0f, 200.0f, 350.0f, -1.0f, -1.0f,50.0f,
+	100.0f, 50.0f, 200.0f, 350.0f, -1.0f, 1.0f, 50.0f,
+	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, -1.0f, 50.0f,
+	100.0f, 50.0f, 200.0f, 350.0f, -1.0f, 1.0f, 50.0f,
+	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, -1.0f, 50.0f,
+	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 1.0f,  50.0f,
+};
 
 // Global Object Declaration
 
@@ -43,8 +43,8 @@ using std::ostringstream;
 	\return None
 
 */
-Triangle::Triangle( Renderer* parent )
-	: Model(parent, this, TriangleType)
+Line::Line( Renderer* parent )
+	: Model(parent, this, LineType)
 {
 	if (!parent)
 		return;
@@ -63,10 +63,10 @@ Triangle::Triangle( Renderer* parent )
 	\return None
 
 */
-Triangle::~Triangle()
+Line::~Line()
 {
 	PROGRAM* program = NULL;
-	if ( program = ProgramManagerObj->Program( ( char * )"Triangle" ) )
+	if ( program = ProgramManagerObj->Program( ( char * )"Line" ) )
 	{
 		ProgramManagerObj->RemoveProgram(program);
 	}
@@ -79,10 +79,10 @@ Triangle::~Triangle()
 	\return None
 
 */
-void Triangle::InitModel()
+void Line::InitModel()
 {
-	if (!(program = ProgramManagerObj->Program( (char*) "Triangle"))){
-		program = ProgramManagerObj->ProgramInit( (char *) "Triangle" );
+	if (!(program = ProgramManagerObj->Program( (char*) "Line"))){
+		program = ProgramManagerObj->ProgramInit( (char *) "Line" );
 		ProgramManagerObj->AddProgram( program );
 	}
 
@@ -119,61 +119,53 @@ void Triangle::InitModel()
 	\return None
 
 */
-void Triangle::Render()
+void Line::Render()
 {
     glUseProgram( program->ProgramID );
 
-    //radian = degree++/57.2957795;
+    radian = degree++/57.2957795;
     
     // Query and send the uniform variable.
-    //radianAngle          = glGetUniformLocation(program->ProgramID, "RadianAngle");
-    //glUniform1f(radianAngle, radian);
+    radianAngle          = glGetUniformLocation(program->ProgramID, "RadianAngle");
+    glUniform1f(radianAngle, radian);
 
 	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
-	//auto antialias = glGetUniformLocation(program->ProgramID, "antialias");
-	//
-	glUniform2f(resolution, 800.0f, 600.0f);
-	//glUniform1f(antialias, 4.0f);
+	auto antialias = glGetUniformLocation(program->ProgramID, "antialias");
+	auto capStyle = glGetUniformLocation(program->ProgramID, "capStyle");
 
-    //positionAttribHandle = ProgramManagerObj->ProgramGetVertexAttribLocation(program,(char*)"VertexPosition");
-	//colorAttribHandle    = ProgramManagerObj->ProgramGetVertexAttribLocation(program, (char*)"VertexColor");
+	glUniform2f(resolution, 800.0f, 800.0f);
+	glUniform1f(antialias, 2.0f);
+	glUniform1f(capStyle, 0.0f);
     
 	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
-	//layout.Push<float>(2);
-	//layout.Push<float>(2);
-	//layout.Push<float>(1);
+	layout.Push<float>(2);
+	layout.Push<float>(2);
+	layout.Push<float>(1);
 	VertexArray va;
 	va.AddBuffer(vb, layout);
 	
 	va.Bind();
 
-
-	//glEnableVertexAttribArray(positionAttribHandle);
-	//glEnableVertexAttribArray(colorAttribHandle);
-
-	//glVertexAttribPointer(positionAttribHandle, 2, GL_FLOAT, false, 0, gTriangleVertices);
-	//glVertexAttribPointer(colorAttribHandle, 3, GL_FLOAT, false, 0, gTriangleColors);
-
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Triangle::TouchEventDown(float x, float y)
+void Line::TouchEventDown(float x, float y)
 {
 	//vertexAttribute[1 * 2 + 0] = 1.0; vertexAttribute[1 * 2 + 1] = 0.0; vertexAttribute[1 * 2 + 2] = 0.0;
 	//vertexAttribute[2 * 2 + 3] = 1.0; vertexAttribute[2 * 2 + 4] = 0.0; vertexAttribute[2 * 2 + 5] = 0.0;
 	//vertexAttribute[3 * 2 + 6] = 1.0; vertexAttribute[3 * 2 + 7] = 0.0; vertexAttribute[3 * 2 + 8] = 0.0;
 }
 
-void Triangle::TouchEventMove(float x, float y)
+void Line::TouchEventMove(float x, float y)
 {
 	vertexAttribute[1 * 2 + 0] = 0.0; vertexAttribute[1 * 2 + 1] = 1.0; vertexAttribute[1 * 2 + 2] = 0.0;
 	vertexAttribute[2 * 2 + 3] = 0.0; vertexAttribute[2 * 2 + 4] = 1.0; vertexAttribute[2 * 2 + 5] = 0.0;
 	vertexAttribute[3 * 2 + 6] = 0.0; vertexAttribute[3 * 2 + 7] = 1.0; vertexAttribute[3 * 2 + 8] = 0.0;
 }
 
-void Triangle::TouchEventRelease(float x, float y)
+void Line::TouchEventRelease(float x, float y)
 {
 	//vertexAttribute[1 * 2 + 0] = 0.0; vertexAttribute[1 * 2 + 1] = 0.0; vertexAttribute[1 * 2 + 2] = 1.0;
 	//vertexAttribute[2 * 2 + 3] = 0.0; vertexAttribute[2 * 2 + 4] = 0.0; vertexAttribute[2 * 2 + 5] = 1.0;

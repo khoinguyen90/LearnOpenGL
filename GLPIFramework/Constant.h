@@ -90,6 +90,8 @@ enum ModelType{
     FontThai = 10,
     FontArabic = 11,
     FontTamil = 12,
+	EllipseType = 13,
+	LineType = 14,
 };
 
 // Language Type for Localizaion support

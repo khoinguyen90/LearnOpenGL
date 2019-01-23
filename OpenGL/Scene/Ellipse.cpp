@@ -1,4 +1,4 @@
-#include "Triangle.h"
+#include "Ellipse.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -16,8 +16,8 @@
 #define VERTEX_SHADER_PRG			( char * )"BlueTriangleVertex.glsl"
 #define FRAGMENT_SHADER_PRG			( char * )"BlueTriangleFragment.glsl"
 #else
-#define VERTEX_SHADER_PRG			( char * )"shader/BlueTriangleVertex.glsl"
-#define FRAGMENT_SHADER_PRG			( char * )"shader/BlueTriangleFragment.glsl"
+#define VERTEX_SHADER_PRG			( char * )"shader/EllipseVertex.glsl"
+#define FRAGMENT_SHADER_PRG			( char * )"shader/EllipseFragment.glsl"
 #endif
 
 // Namespace used
@@ -43,8 +43,8 @@ using std::ostringstream;
 	\return None
 
 */
-Triangle::Triangle( Renderer* parent )
-	: Model(parent, this, TriangleType)
+Ellipse::Ellipse( Renderer* parent )
+	: Model(parent, this, EllipseType)
 {
 	if (!parent)
 		return;
@@ -63,10 +63,10 @@ Triangle::Triangle( Renderer* parent )
 	\return None
 
 */
-Triangle::~Triangle()
+Ellipse::~Ellipse()
 {
 	PROGRAM* program = NULL;
-	if ( program = ProgramManagerObj->Program( ( char * )"Triangle" ) )
+	if ( program = ProgramManagerObj->Program( ( char * )"Ellipse" ) )
 	{
 		ProgramManagerObj->RemoveProgram(program);
 	}
@@ -79,10 +79,10 @@ Triangle::~Triangle()
 	\return None
 
 */
-void Triangle::InitModel()
+void Ellipse::InitModel()
 {
-	if (!(program = ProgramManagerObj->Program( (char*) "Triangle"))){
-		program = ProgramManagerObj->ProgramInit( (char *) "Triangle" );
+	if (!(program = ProgramManagerObj->Program( (char*) "Ellipse"))){
+		program = ProgramManagerObj->ProgramInit( (char *) "Ellipse" );
 		ProgramManagerObj->AddProgram( program );
 	}
 
@@ -119,7 +119,7 @@ void Triangle::InitModel()
 	\return None
 
 */
-void Triangle::Render()
+void Ellipse::Render()
 {
     glUseProgram( program->ProgramID );
 
@@ -159,21 +159,21 @@ void Triangle::Render()
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
-void Triangle::TouchEventDown(float x, float y)
+void Ellipse::TouchEventDown(float x, float y)
 {
 	//vertexAttribute[1 * 2 + 0] = 1.0; vertexAttribute[1 * 2 + 1] = 0.0; vertexAttribute[1 * 2 + 2] = 0.0;
 	//vertexAttribute[2 * 2 + 3] = 1.0; vertexAttribute[2 * 2 + 4] = 0.0; vertexAttribute[2 * 2 + 5] = 0.0;
 	//vertexAttribute[3 * 2 + 6] = 1.0; vertexAttribute[3 * 2 + 7] = 0.0; vertexAttribute[3 * 2 + 8] = 0.0;
 }
 
-void Triangle::TouchEventMove(float x, float y)
+void Ellipse::TouchEventMove(float x, float y)
 {
 	vertexAttribute[1 * 2 + 0] = 0.0; vertexAttribute[1 * 2 + 1] = 1.0; vertexAttribute[1 * 2 + 2] = 0.0;
 	vertexAttribute[2 * 2 + 3] = 0.0; vertexAttribute[2 * 2 + 4] = 1.0; vertexAttribute[2 * 2 + 5] = 0.0;
 	vertexAttribute[3 * 2 + 6] = 0.0; vertexAttribute[3 * 2 + 7] = 1.0; vertexAttribute[3 * 2 + 8] = 0.0;
 }
 
-void Triangle::TouchEventRelease(float x, float y)
+void Ellipse::TouchEventRelease(float x, float y)
 {
 	//vertexAttribute[1 * 2 + 0] = 0.0; vertexAttribute[1 * 2 + 1] = 0.0; vertexAttribute[1 * 2 + 2] = 1.0;
 	//vertexAttribute[2 * 2 + 3] = 0.0; vertexAttribute[2 * 2 + 4] = 0.0; vertexAttribute[2 * 2 + 5] = 1.0;

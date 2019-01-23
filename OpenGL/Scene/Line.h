@@ -1,22 +1,14 @@
-#ifndef SCENEBASIC_H
-#define SCENEBASIC_H
+#ifndef LINE_H
+#define LINE_H
 
 #include "Model.h"
 #include "glutils.h"
 #include "Renderer.h"
 
-class Triangle : public Model
+class Line : public Model
 {
 private:
-	GLfloat vertexAttribute[12] = {
-		// Position		// color
-		 0.5f,  0.5f,
-		-0.5f,  0.5f,
-		-0.5f, -0.5f,
-		 0.5f,  0.5f,
-		-0.5f, -0.5f,
-		 0.5f, -0.5f
-	};
+
     GLuint positionAttribHandle;
     GLuint colorAttribHandle;
     GLuint radianAngle;
@@ -25,8 +17,8 @@ private:
     float radian;
 
 public:
-    Triangle( Renderer* parent = 0);
-	~Triangle();
+	Line( Renderer* parent = 0);
+	~Line();
 
     void InitModel();
     void Render();
@@ -37,4 +29,4 @@ public:
 	
 };
 
-#endif // SCENEBASIC_H
+#endif // LINE_H

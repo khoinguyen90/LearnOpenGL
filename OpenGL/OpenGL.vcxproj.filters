@@ -102,6 +102,12 @@
     <ClCompile Include="FrameBufferMsaa.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\Ellipse.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Line.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\BlueTriangleFragment.glsl">
@@ -118,16 +124,16 @@
     </None>
     <None Include="Shader\SmoothLineFragment.glsl" />
     <None Include="Shader\SmoothLineVertex.glsl" />
-    <None Include="Shader\11.aa_post.fs">
+    <None Include="Shader\EllipseFragment.glsl">
       <Filter>Shader</Filter>
     </None>
-    <None Include="Shader\11.aa_post.vs">
+    <None Include="Shader\EllipseVertex.glsl">
       <Filter>Shader</Filter>
     </None>
-    <None Include="Shader\11.anti_aliasing.fs">
+    <None Include="Shader\LineFragment.glsl">
       <Filter>Shader</Filter>
     </None>
-    <None Include="Shader\11.anti_aliasing.vs">
+    <None Include="Shader\LineVertex.glsl">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>
@@ -215,6 +221,12 @@
     </ClInclude>
     <ClInclude Include="learnopengl\shader_s.h">
       <Filter>Source Files\includes</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Ellipse.h">
+      <Filter>Source Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Line.h">
+      <Filter>Source Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

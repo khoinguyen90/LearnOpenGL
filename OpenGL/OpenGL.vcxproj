@@ -143,19 +143,21 @@
     <ClCompile Include="FrameBufferMsaa.cpp" />
     <ClCompile Include="OpenGLESLearn.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Scene\Ellipse.cpp" />
+    <ClCompile Include="Scene\Line.cpp" />
     <ClCompile Include="Scene\Renderer.cpp" />
     <ClCompile Include="Scene\Triangle.cpp" />
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Shader\11.aa_post.fs" />
-    <None Include="Shader\11.aa_post.vs" />
-    <None Include="Shader\11.anti_aliasing.fs" />
-    <None Include="Shader\11.anti_aliasing.vs" />
     <None Include="Shader\BlueTriangleFragment.glsl" />
     <None Include="Shader\BlueTriangleVertex.glsl" />
     <None Include="Shader\CubeFragment.glsl" />
     <None Include="Shader\CubeVertex.glsl" />
+    <None Include="Shader\EllipseFragment.glsl" />
+    <None Include="Shader\EllipseVertex.glsl" />
+    <None Include="Shader\LineFragment.glsl" />
+    <None Include="Shader\LineVertex.glsl" />
     <None Include="Shader\SmoothLineFragment.glsl" />
     <None Include="Shader\SmoothLineVertex.glsl" />
   </ItemGroup>
@@ -185,6 +187,8 @@
     <ClInclude Include="learnopengl\shader_m.h" />
     <ClInclude Include="learnopengl\shader_s.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Scene\Ellipse.h" />
+    <ClInclude Include="Scene\Line.h" />
     <ClInclude Include="Scene\Renderer.h" />
     <ClInclude Include="Scene\Triangle.h" />
     <ClInclude Include="stb_image.h" />
