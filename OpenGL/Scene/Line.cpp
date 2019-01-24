@@ -137,34 +137,39 @@ void Line::Render()
 	//glUniform1f(antialias, 0.005f);
 	//glUniform1f(capStyle, 0.0f);
     
-	float thickness = 0.1;
-	float antialias = 0.005;
+	float thickness = 30;
+	float antialias = 2;
+	float p0CapSize = 20;
+	float p1CapSize = 80;
 
-	glm::vec2 startPoint = glm::vec2(0.0, 0.0);
-	glm::vec2 endPoint = glm::vec2(0.5, 0.5);
+	glm::vec2 startPoint = glm::vec2(700, 700);
+	glm::vec2 endPoint = glm::vec2(10, 10);
 
-	glm::vec2 T = normalize(endPoint - startPoint);
-	glm::vec2 O = glm::vec2(-T.y, T.x);
-
-	//glm::vec2 A0 = startPoint + O * (thickness + antialias);
-	//glm::vec2 A1 = startPoint - O * (thickness + antialias);
-	//glm::vec2 B0 = endPoint + O * (thickness + antialias);
-	//glm::vec2 B1 = endPoint + O * (thickness + antialias);
-
-	auto u_antialias = glGetUniformLocation(program->ProgramID, "u_antialias");
 	auto u_linewidth = glGetUniformLocation(program->ProgramID, "u_linewidth");
-	glUniform1f(u_linewidth, thickness);
-	glUniform1f(u_antialias, antialias);
+	auto u_lineStyle = glGetUniformLocation(program->ProgramID, "u_lineStyle");
+	auto u_p0CapSize = glGetUniformLocation(program->ProgramID, "u_p0CapSize");
+	auto u_p1CapSize = glGetUniformLocation(program->ProgramID, "u_p1CapSize");
+	auto u_p0CapStyle = glGetUniformLocation(program->ProgramID, "u_p0CapStyle");
+	auto u_p1CapStyle = glGetUniformLocation(program->ProgramID, "u_p1CapStyle");
+	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
+
+	glUniform1i(u_linewidth, thickness);
+	glUniform1i(u_p0CapSize, p0CapSize);
+	glUniform1i(u_p1CapSize, p1CapSize);
+	glUniform1i(u_p0CapStyle, 3);
+	glUniform1i(u_p1CapStyle, 2);// 0 is flat
+	glUniform1i(u_lineStyle, 3);	// 0 is flat
+	glUniform2i(resolution, 800, 800);
 
 	float vertexAttribute[]
 	{
-		startPoint.x,	startPoint.y, endPoint.x, endPoint.y, -1.0f,  1.0f,
-		startPoint.x,	startPoint.y, endPoint.x, endPoint.y, -1.0f, -1.0f,
-		startPoint.x,	startPoint.y, endPoint.x, endPoint.y,  1.0f,  1.0f,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y, -1.0f,  1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y,  1.0f,  1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 		
-		startPoint.x,	startPoint.y, endPoint.x, endPoint.y,  1.0f,  1.0f,
-		startPoint.x,	startPoint.y, endPoint.x, endPoint.y, -1.0f, -1.0f,
-		startPoint.x,	startPoint.y, endPoint.x, endPoint.y,  1.0f, -1.0f,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y,  1.0f,  1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y,  1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 	};
 
 	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
@@ -172,6 +177,7 @@ void Line::Render()
 	layout.Push<float>(2);
 	layout.Push<float>(2);
 	layout.Push<float>(2);
+	layout.Push<float>(4);
 	//layout.Push<float>(1);
 	VertexArray va;
 	va.AddBuffer(vb, layout);
