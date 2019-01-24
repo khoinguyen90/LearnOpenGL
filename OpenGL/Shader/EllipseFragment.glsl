@@ -1,34 +1,5 @@
 #version 330 core
 
-float SDF_box(vec2 p, vec2 size)
-{
-     vec2 d = abs(p) - size;
-     return min(max(d.x,d.y),0.0) + length(max(d,0.0));
-}
-
-float SDF_fake_ellipse(vec2 p, vec2 size)
-{
-    float r = 0.2;
-    float f = length( p*size );
-    f = length(p*size);
-    return f*(f-r)/length(p*size*size);
-}
-
-float SDF_fake_box(vec2 p, vec2 size)
-{
-    return max(abs(p.x)-size.x, abs(p.y)-size.y);
-}
-
-float SDF_circle(vec2 p, float radius)
-{
-    return length(p) - radius;
-}
-
-float getAlpha(float d, float antialias)
-{
-	return 1.0 - smoothstep(0.0, antialias, abs(d));
-}
-
 float SDF_ellipse(vec2 p, vec2 ab)
 {
     // The function does not like circles

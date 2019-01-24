@@ -3,6 +3,7 @@
 #include "Cube.h"
 #include "Ellipse.h"
 #include "Line.h"
+#include "Bezier.h"
 
 Renderer::Renderer(void)
 {
@@ -23,7 +24,7 @@ void Renderer::createModels()
 	clearModels();
 
 	//Add your custom models here.
-	addModel( new Line	( this ) );
+	addModel( new Bezier	( this ) );
 }
 
 /*!

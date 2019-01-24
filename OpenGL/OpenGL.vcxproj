@@ -143,6 +143,10 @@
     <ClCompile Include="FrameBufferMsaa.cpp" />
     <ClCompile Include="OpenGLESLearn.cpp" />
     <ClCompile Include="Cube.cpp" />
+    <ClCompile Include="Scene\agg_curves.cpp" />
+    <ClCompile Include="Scene\agg_sqrt_tables.cpp" />
+    <ClCompile Include="Scene\Bezier.cpp" />
+    <ClCompile Include="Scene\curve4_div.h" />
     <ClCompile Include="Scene\Ellipse.cpp" />
     <ClCompile Include="Scene\Line.cpp" />
     <ClCompile Include="Scene\Renderer.cpp" />
@@ -150,6 +154,8 @@
     <ClCompile Include="stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Shader\BezierFragment.glsl" />
+    <None Include="Shader\BezierVertex.glsl" />
     <None Include="Shader\BlueTriangleFragment.glsl" />
     <None Include="Shader\BlueTriangleVertex.glsl" />
     <None Include="Shader\CubeFragment.glsl" />
@@ -187,6 +193,12 @@
     <ClInclude Include="learnopengl\shader_m.h" />
     <ClInclude Include="learnopengl\shader_s.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Scene\agg_array.h" />
+    <ClInclude Include="Scene\agg_basics.h" />
+    <ClInclude Include="Scene\agg_config.h" />
+    <ClInclude Include="Scene\agg_curves.h" />
+    <ClInclude Include="Scene\agg_math.h" />
+    <ClInclude Include="Scene\Bezier.h" />
     <ClInclude Include="Scene\Ellipse.h" />
     <ClInclude Include="Scene\Line.h" />
     <ClInclude Include="Scene\Renderer.h" />
