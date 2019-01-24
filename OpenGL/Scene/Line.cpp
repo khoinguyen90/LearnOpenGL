@@ -137,7 +137,7 @@ void Line::Render()
 	//glUniform1f(antialias, 0.005f);
 	//glUniform1f(capStyle, 0.0f);
     
-	float thickness = 0.03;
+	float thickness = 0.1;
 	float antialias = 0.005;
 
 	glm::vec2 startPoint = glm::vec2(0.0, 0.0);
@@ -151,40 +151,27 @@ void Line::Render()
 	//glm::vec2 B0 = endPoint + O * (thickness + antialias);
 	//glm::vec2 B1 = endPoint + O * (thickness + antialias);
 
+	auto u_antialias = glGetUniformLocation(program->ProgramID, "u_antialias");
 	auto u_linewidth = glGetUniformLocation(program->ProgramID, "u_linewidth");
-	glUniform1f(u_linewidth, thickness + 2 * antialias);
-
-	glm::vec2 A0 = startPoint + O * (thickness + 2 * antialias);
-	glm::vec2 A1 = startPoint + (-O) * (thickness + 2 * antialias);
-	glm::vec2 B0 = endPoint + O * (thickness + antialias);
-	glm::vec2 B1 = endPoint + (-O) * (thickness + antialias);
+	glUniform1f(u_linewidth, thickness);
+	glUniform1f(u_antialias, antialias);
 
 	float vertexAttribute[]
 	{
-		startPoint.x, startPoint.y, O.x, O.y,
-		startPoint.x, startPoint.y, -O.x, -O.y,
-		endPoint.x,  endPoint.y, O.x, O.y,
-
-		endPoint.x, endPoint.y, O.x, O.y,
-		startPoint.x, startPoint.y, -O.x, -O.y,
-		endPoint.x, endPoint.y, -O.x, -O.y,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y, -1.0f,  1.0f,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y, -1.0f, -1.0f,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y,  1.0f,  1.0f,
+		
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y,  1.0f,  1.0f,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y, -1.0f, -1.0f,
+		startPoint.x,	startPoint.y, endPoint.x, endPoint.y,  1.0f, -1.0f,
 	};
-
-	//float vertexAttribute[]
-	//{
-	//	-0.0f, 0.5f, 0.0, 0.0,
-	//	-0.0f, 0.5f, 0.0, 0.0,
-	//	 0.0f, 0.5f, 0.0, 0.0,
-	//	-0.0f, 0.5f, 0.0, 0.0,
-	//	 0.0f, 0.5f, 0.0, 0.0,
-	//	 0.0f, 0.5f, 0.0, 0.0
-	//};
 
 	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
 	layout.Push<float>(2);
-	//layout.Push<float>(2);
+	layout.Push<float>(2);
 	//layout.Push<float>(1);
 	VertexArray va;
 	va.AddBuffer(vb, layout);
