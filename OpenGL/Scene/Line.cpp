@@ -137,28 +137,26 @@ void Line::Render()
 	//glUniform1f(antialias, 0.005f);
 	//glUniform1f(capStyle, 0.0f);
     
-	float thickness = 30;
+	float thickness = 1;
 	float antialias = 2;
-	float p0CapSize = 20;
+	float p0CapSize = 60;
 	float p1CapSize = 80;
 
 	glm::vec2 startPoint = glm::vec2(700, 700);
 	glm::vec2 endPoint = glm::vec2(10, 10);
 
-	auto u_linewidth = glGetUniformLocation(program->ProgramID, "u_linewidth");
-	auto u_lineStyle = glGetUniformLocation(program->ProgramID, "u_lineStyle");
-	auto u_p0CapSize = glGetUniformLocation(program->ProgramID, "u_p0CapSize");
-	auto u_p1CapSize = glGetUniformLocation(program->ProgramID, "u_p1CapSize");
-	auto u_p0CapStyle = glGetUniformLocation(program->ProgramID, "u_p0CapStyle");
-	auto u_p1CapStyle = glGetUniformLocation(program->ProgramID, "u_p1CapStyle");
 	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
+	auto u_Params = glGetUniformLocation(program->ProgramID, "u_Params");
 
-	glUniform1i(u_linewidth, thickness);
-	glUniform1i(u_p0CapSize, p0CapSize);
-	glUniform1i(u_p1CapSize, p1CapSize);
-	glUniform1i(u_p0CapStyle, 3);
-	glUniform1i(u_p1CapStyle, 2);// 0 is flat
-	glUniform1i(u_lineStyle, 3);	// 0 is flat
+	float uParams[9];
+	uParams[0] = 3;							// Line style
+	uParams[1] = 2;					// Line width
+	uParams[2] = 3;							// P0 cap style
+	uParams[3] = 20;
+	uParams[4] = 2;
+	uParams[5] = 30;
+
+	glUniformMatrix3fv(u_Params, 1, GL_FALSE, uParams);
 	glUniform2i(resolution, 800, 800);
 
 	float vertexAttribute[]

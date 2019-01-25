@@ -120,6 +120,9 @@
     <ClCompile Include="Scene\Bezier.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\Polygon.cpp">
+      <Filter>Source Files\Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\BlueTriangleFragment.glsl">
@@ -152,6 +155,12 @@
       <Filter>Shader</Filter>
     </None>
     <None Include="Shader\BezierVertex.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\PolygonFragment.glsl">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="Shader\PolygonVertex.glsl">
       <Filter>Shader</Filter>
     </None>
   </ItemGroup>
@@ -262,6 +271,9 @@
       <Filter>Source Files\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Scene\Bezier.h">
+      <Filter>Source Files\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Polygon.h">
       <Filter>Source Files\Scene</Filter>
     </ClInclude>
   </ItemGroup>

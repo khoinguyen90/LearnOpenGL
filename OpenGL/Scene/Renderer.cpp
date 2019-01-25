@@ -4,6 +4,7 @@
 #include "Ellipse.h"
 #include "Line.h"
 #include "Bezier.h"
+#include "Polygon.h"
 
 Renderer::Renderer(void)
 {
@@ -24,7 +25,7 @@ void Renderer::createModels()
 	clearModels();
 
 	//Add your custom models here.
-	addModel( new Bezier	( this ) );
+	addModel( new Line	( this ) );
 }
 
 /*!

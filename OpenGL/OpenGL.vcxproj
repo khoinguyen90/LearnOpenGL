@@ -149,6 +149,7 @@
     <ClCompile Include="Scene\curve4_div.h" />
     <ClCompile Include="Scene\Ellipse.cpp" />
     <ClCompile Include="Scene\Line.cpp" />
+    <ClCompile Include="Scene\Polygon.cpp" />
     <ClCompile Include="Scene\Renderer.cpp" />
     <ClCompile Include="Scene\Triangle.cpp" />
     <ClCompile Include="stb_image.cpp" />
@@ -164,6 +165,8 @@
     <None Include="Shader\EllipseVertex.glsl" />
     <None Include="Shader\LineFragment.glsl" />
     <None Include="Shader\LineVertex.glsl" />
+    <None Include="Shader\PolygonFragment.glsl" />
+    <None Include="Shader\PolygonVertex.glsl" />
     <None Include="Shader\SmoothLineFragment.glsl" />
     <None Include="Shader\SmoothLineVertex.glsl" />
   </ItemGroup>
@@ -201,6 +204,7 @@
     <ClInclude Include="Scene\Bezier.h" />
     <ClInclude Include="Scene\Ellipse.h" />
     <ClInclude Include="Scene\Line.h" />
+    <ClInclude Include="Scene\Polygon.h" />
     <ClInclude Include="Scene\Renderer.h" />
     <ClInclude Include="Scene\Triangle.h" />
     <ClInclude Include="stb_image.h" />
