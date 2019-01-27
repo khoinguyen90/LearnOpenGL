@@ -27,16 +27,6 @@
 using std::ifstream;
 using std::ostringstream;
 
-//GLfloat vertexAttribute[] = {
-//	// Position		// color
-//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 0.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 1.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 0.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 1.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 0.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 1.0f, 10.0f,
-//};
-
 // Global Object Declaration
 
 /*!
@@ -132,49 +122,94 @@ void Bezier::Render()
     //radianAngle          = glGetUniformLocation(program->ProgramID, "RadianAngle");
     //glUniform1f(radianAngle, radian);
 
-	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
+	auto u_resolution = glGetUniformLocation(program->ProgramID, "u_resolution");
+	auto u_lineWidth = glGetUniformLocation(program->ProgramID, "u_lineWidth");
+	auto u_lineLength = glGetUniformLocation(program->ProgramID, "u_lineLength");
 	//auto antialias = glGetUniformLocation(program->ProgramID, "antialias");
 	//
-	glUniform2f(resolution, 800.0f, 800.0f);
-	//glUniform1f(antialias, 4.0f);
-
-    //positionAttribHandle = ProgramManagerObj->ProgramGetVertexAttribLocation(program,(char*)"VertexPosition");
-	//colorAttribHandle    = ProgramManagerObj->ProgramGetVertexAttribLocation(program, (char*)"VertexColor");
+	glUniform2f(u_resolution, 800.0f, 800.0f);
+	glUniform1f(u_lineWidth, 10);
+	glUniform1f(u_lineLength, 1350);
     
-	double d = 64;
-	agg::curve4_div P{ d, d, d, 512, 512 - d, 512, 512 - d, d };
+	double d = 10;
+	agg::curve4_div P{ d, d, d, 700, 200 - d, 512, 512 - d, d };
 
-	double x, y;
-	int order;
-	for (int i = 0; i < 64 ; i++)
+	double p1X, p1Y, p2X, p2Y, p3X, p3Y;
+	double lengh = 0;
+
+	for (int i = 0; i < 60 ; i++)
 	{
-		order = P.vertex(&x, &y);
-		vertexAttribute[i * 2] = x;
-		vertexAttribute[i * 2 + 1] = y;
+		if (i == 0)
+		{
+			P.vertex(&p1X, &p1Y);
+			p2X = p1X;
+			p2Y = p1Y;
+			P.vertex(&p3X, &p3Y);
+		}
+		else
+		{
+			p1X = p2X;
+			p1Y = p2Y;
+			p2X = p3X;
+			p2Y = p3Y;
+			P.vertex(&p3X, &p3Y);
+		}
+
+		vertexAttribute[i * 16 + 0] = p1X;
+		vertexAttribute[i * 16 + 1] = p1Y;
+		vertexAttribute[i * 16 + 2] = p2X;
+		vertexAttribute[i * 16 + 3] = p2Y;
+		vertexAttribute[i * 16 + 4] = 1;
+		vertexAttribute[i * 16 + 5] = 0;
+		vertexAttribute[i * 16 + 6] = p3X;
+		vertexAttribute[i * 16 + 7] = p3Y;
+
+		vertexAttribute[i * 16 + 8] = p1X;
+		vertexAttribute[i * 16 + 9] = p1Y;
+		vertexAttribute[i * 16 + 10] = p2X;
+		vertexAttribute[i * 16 + 11] = p2Y;
+		vertexAttribute[i * 16 + 12] = -1;
+		vertexAttribute[i * 16 + 13] = 0;
+		vertexAttribute[i * 16 + 14] = p3X;
+		vertexAttribute[i * 16 + 15] = p3Y;
+
+		// Start lengh
+		//vertexAttribute[i * 11 + 1] = lengh;
+
+		// Start length for next line
+		//lengh += glm::length(glm::vec2(p2X, p2Y) - glm::vec2(p1X, p1Y));
 	}
 
 	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
+	layout.Push<float>(4);
+	layout.Push<float>(2);
 	//layout.Push<float>(2);
 	//layout.Push<float>(2);
 	//layout.Push<float>(1);
 
-	unsigned int indices[64 * 3];
-	for (int i = 0; i < 64; i++)
-	{
-		indices[i * 3] = 3 * i;
-		indices[i * 3 + 1] = i * 3 + 1;
-		indices[i * 3 + 2] = i * 3 + 2;
-	}
+	//unsigned int indices[64 * 3];
+	//for (int i = 0; i < 64; i++)
+	//{
+	//	indices[i * 3] = 3 * i;
+	//	indices[i * 3 + 1] = i * 3 + 1;
+	//	indices[i * 3 + 2] = i * 3 + 2;
+	//}
 
-	//IndexBuffer index{ indices , 64 };
+	//unsigned int indices[6] = {
+	//	0, 1, 2,
+	//	2, 1, 3,
+
+
+	//};
+
+	//IndexBuffer index{ indices , 6 };
 	VertexArray va;
 	va.AddBuffer(vb, layout);
 	
 	//index.Bind();
 	va.Bind();
-
 
 	//glEnableVertexAttribArray(positionAttribHandle);
 	//glEnableVertexAttribArray(colorAttribHandle);
@@ -182,9 +217,8 @@ void Bezier::Render()
 	//glVertexAttribPointer(positionAttribHandle, 2, GL_FLOAT, false, 0, gTriangleVertices);
 	//glVertexAttribPointer(colorAttribHandle, 3, GL_FLOAT, false, 0, gTriangleColors);
 
-	glLineWidth(20);
-    glDrawArrays(GL_LINE_STRIP, 0, 64);
-	//glDrawElements(GL_POINTS, 3, GL_UNSIGNED_INT, 0);
+	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 60 * 2);
 }
 
 void Bezier::TouchEventDown(float x, float y)

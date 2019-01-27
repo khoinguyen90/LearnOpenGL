@@ -10,6 +10,7 @@
 #include "VertexArray.h"
 #include "VertexBuffer.h"
 #include "VertexBufferLayout.h"
+#include "IndexBuffer.h"
 
 //Note: The Linux is very case sensitive so be aware of specifying correct folder and filename.
 #ifdef __APPLE__
@@ -123,40 +124,38 @@ void Polygon::Render()
 {
 	glUseProgram(program->ProgramID);
 
-	//radian = degree++/57.2957795;
+	auto u_resolution = glGetUniformLocation(program->ProgramID, "u_resolution");
+	auto u_lineWidth = glGetUniformLocation(program->ProgramID, "u_lineWidth");
+	auto u_lineLength = glGetUniformLocation(program->ProgramID, "u_lineLength");
 
-	// Query and send the uniform variable.
-	//radianAngle          = glGetUniformLocation(program->ProgramID, "RadianAngle");
-	//glUniform1f(radianAngle, radian);
+	glUniform2f(u_resolution, 800.0f, 800.0f);
+	glUniform1f(u_lineWidth, 5);
+	glUniform1f(u_lineLength, 1350);
 
-	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
-	//auto antialias = glGetUniformLocation(program->ProgramID, "antialias");
-	//
-	glUniform2f(resolution, 800.0f, 800.0f);
-	//glUniform1f(antialias, 4.0f);
+	unsigned int indexBuffer[] = {
+		0, 1, 2,
+		1, 2, 3,
 
-	//positionAttribHandle = ProgramManagerObj->ProgramGetVertexAttribLocation(program,(char*)"VertexPosition");
-	//colorAttribHandle    = ProgramManagerObj->ProgramGetVertexAttribLocation(program, (char*)"VertexColor");
+		4, 5, 6,
+		5, 6, 7,
 
+		8, 9, 10,
+		9, 10, 11,
+	};
+	IndexBuffer ib{ indexBuffer , 6 * 3 };
 	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
-	//layout.Push<float>(2);
-	//layout.Push<float>(2);
-	//layout.Push<float>(1);
+	layout.Push<float>(4);
+	layout.Push<float>(3);
+
 	VertexArray va;
 	va.AddBuffer(vb, layout);
-
 	va.Bind();
+	ib.Bind();
 
-
-	//glEnableVertexAttribArray(positionAttribHandle);
-	//glEnableVertexAttribArray(colorAttribHandle);
-
-	//glVertexAttribPointer(positionAttribHandle, 2, GL_FLOAT, false, 0, gTriangleVertices);
-	//glVertexAttribPointer(colorAttribHandle, 3, GL_FLOAT, false, 0, gTriangleColors);
-
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	//glDrawArrays(GL_TRIANGLE_STRIP, 0, 8);
+	glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, 0);
 }
 
 void Polygon::TouchEventDown(float x, float y)
