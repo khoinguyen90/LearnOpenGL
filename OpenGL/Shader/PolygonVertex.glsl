@@ -36,6 +36,7 @@ void main()
 		vec2 N0 = vec2(-T0.y, T0.x);
 		p = a_current.xy + a_current.z * w * N0;
 		v_uv = vec2(0, w * a_current.z);
+		v_miterDistance.x = 1e10;
 	}
 	else if(a_current.xy == a_next.xy)	// End line
 	{
@@ -43,6 +44,7 @@ void main()
 		vec2 N1 = vec2(-T1.y, T1.x);
 		p = a_current.xy + a_current.z * w * N1;
 		v_uv = vec2(u_lineLength, a_current.z * w);
+		v_miterDistance.x = 1e10;
 	}
 	else	// Body
 	{
@@ -65,7 +67,14 @@ void main()
 			p += ((angle < 0) ? 1 : -1) * dx * ((a_current.w == 1.0) ? a_nextT0 : (-a_previousT0));
 		}
 
-		//v_miterDistance.x = line_distance(a_previous, )
+		if(a_current.w == -1.0)
+		{
+			v_miterDistance.x = line_distance(p, a_previous, a_current.xy) + w;
+		}
+		else
+		{
+			v_miterDistance.x = line_distance(p, a_current.xy, a_next) + w;
+		}
 	}
 
 	gl_Position = vec4(2 * p / u_resolution - 1.0, 0.0, 1.0);
