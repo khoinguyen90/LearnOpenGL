@@ -45,6 +45,7 @@ uniform float antialias;
 uniform float linewidth;
 uniform float miter_limit;
 
+in float v_startLength;
 in float v_length;
 in vec2  v_caps;
 in vec2  v_texcoord;
@@ -56,26 +57,32 @@ void main()
 
     float distance = v_texcoord.y;
 
+	if(int(v_texcoord.x) % (12 * int(linewidth)) > 6 * linewidth)
+	{
+		discard;
+		return;
+	}
+
     if (v_caps.x < 0.0)
     {
         gl_FragColor = cap(0, v_texcoord.x, v_texcoord.y, linewidth, antialias, color);
         return;
     }
-    if (v_caps.y > v_length)
+    if (v_caps.y > v_startLength+ v_length)
     {
-        gl_FragColor = cap(0, v_texcoord.x-v_length, v_texcoord.y, linewidth, antialias, color);
+        gl_FragColor = cap(0, v_texcoord.x-(v_startLength + v_length), v_texcoord.y, linewidth, antialias, color);
         return;
     }
 
     // Round join (instead of miter)
     if (miter_limit < 0) {
-        if (v_texcoord.x < 0.0)
+        if (v_texcoord.x < v_startLength)
         {
-            distance = length(v_texcoord);
+            distance = length(v_texcoord - vec2(v_startLength, 0));
         }
-        else if(v_texcoord.x > v_length)
+        else if(v_texcoord.x > v_startLength + v_length)
         {
-            distance = length(v_texcoord - vec2(v_length, 0.0));
+            distance = length(v_texcoord - vec2(v_startLength + v_length, 0.0));
         }
     } else {
     // Miter limit
@@ -85,7 +92,7 @@ void main()
     {
         distance = v_bevel_distance.x - t;
     }
-    else if( (v_texcoord.x > v_length) && (v_bevel_distance.y > (abs(distance) + t)) )
+    else if( (v_texcoord.x > v_startLength + v_length) && (v_bevel_distance.y > (abs(distance) + t)) )
     {
         distance = v_bevel_distance.y - t;
     }

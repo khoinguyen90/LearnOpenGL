@@ -130,7 +130,7 @@ void Polygon::Render()
 	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
 
 	glUniform1f(antialias, 1.5);
-	glUniform1f(linewidth, 30);
+	glUniform1f(linewidth, 10);
 	glUniform1f(miter_limit, -1);
 	glUniform2f(resolution, 800, 800);
 
@@ -152,6 +152,7 @@ void Polygon::Render()
 	layout.Push<float>(2);
 	layout.Push<float>(2);
 	layout.Push<float>(2);
+	layout.Push<float>(1);
 
 	VertexArray va;
 	va.AddBuffer(vb, layout);
