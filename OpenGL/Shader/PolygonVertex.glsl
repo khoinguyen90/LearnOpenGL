@@ -1,81 +1,159 @@
 #version 330 core
 
-in vec2 a_texcoord0;
-in vec4 a_texcoord1;
-in vec3 a_texcoord2;
-//in vec4 a_color0;
+uniform float antialias;
+uniform float linewidth;
+uniform float miter_limit;
+uniform vec2 resolution;
 
-#define ANTIALIAS			1
-#define a_previous			a_texcoord0
-#define a_current			a_texcoord1
-#define a_pointLength		a_texcoord2.x
-#define a_next				(a_texcoord2.yz)
+layout(location = 0) in vec2 p0;
+layout(location = 1) in vec2 p1;
+layout(location = 2) in vec2 p2;
+layout(location = 3) in vec2 p3;
+layout(location = 4) in vec2 a_normal;
 
-uniform float u_lineWidth;
-uniform vec2 u_resolution;
-uniform float u_lineLength;
+out float v_length;
+out vec2  v_caps;
+out vec2  v_texcoord;
+out vec2  v_bevel_distance;
 
-out vec2 v_uv;
-out vec2 v_miterDistance;
+float compute_u(vec2 p0, vec2 p1, vec2 p)
+{
+    // Projection p' of p such that p' = p0 + u*(p1-p0)
+    // Then  u *= lenght(p1-p0)
+    vec2 v = p1 - p0;
+    float l = length(v);
+    return ((p.x-p0.x)*v.x + (p.y-p0.y)*v.y) / l;
+}
 
-float line_distance(vec2 p, vec2 p1, vec2 p2) {
-    vec2 center = (p1 + p2) * 0.5;
-    float len = length(p2 - p1);
-    vec2 dir = (p2 - p1) / len;
-    vec2 rel_p = p - center;
-    return dot(rel_p, vec2(dir.y, -dir.x));
+float line_distance(vec2 p0, vec2 p1, vec2 p)
+{
+    // Projection p' of p such that p' = p0 + u*(p1-p0)
+    vec2 v = p1 - p0;
+    float l2 = v.x*v.x + v.y*v.y;
+    float u = ((p.x-p0.x)*v.x + (p.y-p0.y)*v.y) / l2;
+
+    // h is the projection of p on (p0,p1)
+    vec2 h = p0 + u*v;
+
+    return length(p-h);
 }
 
 void main()
 {
-	float w = ((u_lineWidth / 2) + ANTIALIAS);
-	vec2 p;
-	if(a_previous.xy == a_current.xy)	// Start line
+    // Determine the direction of each of the 3 segments (previous, current, next)
+    vec2 v0 = normalize(p1 - p0);
+    vec2 v1 = normalize(p2 - p1);
+    vec2 v2 = normalize(p3 - p2);
+
+	// Determine the normal of each of the 3 segments (previous, current, next)
+    vec2 n0 = vec2(-v0.y, v0.x);
+    vec2 n1 = vec2(-v1.y, v1.x);
+    vec2 n2 = vec2(-v2.y, v2.x);
+
+	// Determine miter lines by averaging the normals of the 2 segments
+    vec2 miter_a = normalize(n0 + n1); // miter at start of current segment
+    vec2 miter_b = normalize(n1 + n2); // miter at end of current segment
+
+    // Determine the length of the miter by projecting it onto normal
+    vec2 p,v;
+    float d;
+    float w = linewidth/2.0 + antialias;
+    v_length = length(p2-p1);
+
+    float length_a = w / dot(miter_a, n1);
+    float length_b = w / dot(miter_b, n1);
+
+    float m = miter_limit*linewidth/2.0;
+
+    // Angle between prev and current segment (sign only)
+    float d0 = -sign(v0.x*v1.y - v0.y*v1.x);
+
+    // Angle between current and next segment (sign only)
+    float d1 = -sign(v1.x*v2.y - v1.y*v2.x);
+
+	if(a_normal.x == -1 && a_normal.y == 1) // top-left
 	{
-		vec2 T0 = normalize(a_next.xy - a_current.xy);
-		vec2 N0 = vec2(-T0.y, T0.x);
-		p = a_current.xy + a_current.z * w * N0;
-		v_uv = vec2(0, w * a_current.z);
-		v_miterDistance.x = 1e10;
+		// First vertex
+		// ------------------------------------------------------------------------
+		// Cap at start
+		if( p0 == p1 ) {
+			p = p1 - w*v1 + w*n1;
+			v_texcoord = vec2(-w, +w);
+			v_caps.x = v_texcoord.x;
+		// Regular join
+		} else {
+			p = p1 + length_a * miter_a;
+			v_texcoord = vec2(compute_u(p1,p2,p), +w);
+			v_caps.x = 1.0;
+		}
+		if( p2 == p3 ) v_caps.y = v_texcoord.x;
+		else           v_caps.y = 1.0;
+		gl_Position = vec4(2*p/resolution - 1, 0.0, 1.0);
+		v_bevel_distance.x = +d0*line_distance(p1+d0*n0*w, p1+d0*n1*w, p);
+		v_bevel_distance.y =    -line_distance(p2+d1*n1*w, p2+d1*n2*w, p);
 	}
-	else if(a_current.xy == a_next.xy)	// End line
+	else if((a_normal.x == -1.0f) && (a_normal.y == -1.0f))
 	{
-		vec2 T1 = normalize(a_next.xy - a_previous.xy);
-		vec2 N1 = vec2(-T1.y, T1.x);
-		p = a_current.xy + a_current.z * w * N1;
-		v_uv = vec2(u_lineLength, a_current.z * w);
-		v_miterDistance.x = 1e10;
+		// Second vertex
+		// ------------------------------------------------------------------------
+		// Cap at start
+		if( p0 == p1 ) {
+			p = p1 - w*v1 - w*n1;
+			v_texcoord = vec2(-w, -w);
+			v_caps.x = v_texcoord.x;
+		// Regular join
+		} else {
+			p = p1 - length_a * miter_a;
+			v_texcoord = vec2(compute_u(p1,p2,p), -w);
+			v_caps.x = 1.0;
+		}
+		if( p2 == p3 ) v_caps.y = v_texcoord.x;
+		else           v_caps.y = 1.0;
+		gl_Position = vec4(2*p/resolution - 1, 0.0, 1.0);
+		v_bevel_distance.x = -d0*line_distance(p1+d0*n0*w, p1+d0*n1*w, p);
+		v_bevel_distance.y =    -line_distance(p2+d1*n1*w, p2+d1*n2*w, p);
 	}
-	else	// Body
+	else if((a_normal.x == 1.0f) && (a_normal.y == 1.0f))
 	{
-		vec2 a_previousT0 = normalize(a_current.xy - a_previous.xy);
-		vec2 a_previousN0 = vec2(-a_previousT0.y, a_previousT0.x);
-
-		vec2 a_nextT0 = normalize(a_next.xy - a_current.xy);
-		vec2 a_nextN0 = vec2(-a_nextT0.y, a_nextT0.x);
-
-		vec2 miter = normalize(a_previousN0 + a_nextN0);
-		float dy = w / dot(miter, a_nextN0);
-		float dx = dy / dot(miter, a_previousT0);
-		
-		float angle = atan(a_nextT0.y, a_nextT0.x);
-
-		p = a_current.xy + dy * miter * ((angle < 0) ? 1 : -1);
-		v_uv = vec2(a_pointLength + a_current.z * a_current.w * dx/2, a_current.z * w);
-		if(a_current.z == ((angle < 0) ? -1.0 : 1.0))
-		{
-			p += ((angle < 0) ? 1 : -1) * dx * ((a_current.w == 1.0) ? a_nextT0 : (-a_previousT0));
+		// Third vertex
+		// ------------------------------------------------------------------------
+		// Cap at end
+		if( p2 == p3 ) {
+			p = p2 + w*v1 + w*n1;
+			v_texcoord = vec2(v_length+w, +w);
+			v_caps.y = v_texcoord.x;
+		// Regular join
+		} else {
+			p = p2 + length_b * miter_b;
+			v_texcoord = vec2(compute_u(p1,p2,p), +w);
+			v_caps.y = 1.0;
 		}
+		if( p0 == p1 ) v_caps.x = v_texcoord.x;
+		else           v_caps.x = 1.0;
 
-		if(a_current.w == -1.0)
-		{
-			v_miterDistance.x = line_distance(p, a_previous, a_current.xy) + w;
-		}
-		else
-		{
-			v_miterDistance.x = line_distance(p, a_current.xy, a_next) + w;
-		}
+		gl_Position = vec4(2*p/resolution - 1, 0.0, 1.0);
+		v_bevel_distance.x =    -line_distance(p1+d0*n0*w, p1+d0*n1*w, p);
+		v_bevel_distance.y = +d1*line_distance(p2+d1*n1*w, p2+d1*n2*w, p);
 	}
-
-	gl_Position = vec4(2 * p / u_resolution - 1.0, 0.0, 1.0);
+	else if((a_normal.x == 1.0f) && (a_normal.y == -1.0f))
+	{
+		// Fourth vertex
+		// ------------------------------------------------------------------------
+		// Cap at end
+		if( p2 == p3 ) {
+			p = p2 + w*v1 - w*n1;
+			v_texcoord = vec2(v_length+w, -w);
+			v_caps.y = v_texcoord.x;
+		// Regular join
+		} else {
+			p = p2 - length_b * miter_b;
+			v_texcoord = vec2(compute_u(p1,p2,p), -w);
+			v_caps.y = 1.0;
+		}
+		if( p0 == p1 ) v_caps.x = v_texcoord.x;
+		else           v_caps.x = 1.0;
+		gl_Position = vec4(2*p/resolution - 1, 0.0, 1.0);
+		v_bevel_distance.x =    -line_distance(p1+d0*n0*w, p1+d0*n1*w, p);
+		v_bevel_distance.y = -d1*line_distance(p2+d1*n1*w, p2+d1*n2*w, p);
+	}
 }

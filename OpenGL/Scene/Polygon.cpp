@@ -124,13 +124,15 @@ void Polygon::Render()
 {
 	glUseProgram(program->ProgramID);
 
-	auto u_resolution = glGetUniformLocation(program->ProgramID, "u_resolution");
-	auto u_lineWidth = glGetUniformLocation(program->ProgramID, "u_lineWidth");
-	auto u_lineLength = glGetUniformLocation(program->ProgramID, "u_lineLength");
+	auto antialias = glGetUniformLocation(program->ProgramID, "antialias");
+	auto linewidth = glGetUniformLocation(program->ProgramID, "linewidth");
+	auto miter_limit = glGetUniformLocation(program->ProgramID, "miter_limit");
+	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
 
-	glUniform2f(u_resolution, 800.0f, 800.0f);
-	glUniform1f(u_lineWidth, 5);
-	glUniform1f(u_lineLength, 1350);
+	glUniform1f(antialias, 1.5);
+	glUniform1f(linewidth, 30);
+	glUniform1f(miter_limit, -1);
+	glUniform2f(resolution, 800, 800);
 
 	unsigned int indexBuffer[] = {
 		0, 1, 2,
@@ -146,8 +148,10 @@ void Polygon::Render()
 	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
-	layout.Push<float>(4);
-	layout.Push<float>(3);
+	layout.Push<float>(2);
+	layout.Push<float>(2);
+	layout.Push<float>(2);
+	layout.Push<float>(2);
 
 	VertexArray va;
 	va.AddBuffer(vb, layout);
