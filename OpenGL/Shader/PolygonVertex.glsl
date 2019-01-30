@@ -73,80 +73,46 @@ void main()
     // Angle between current and next segment (sign only)
     float d1 = -sign(v1.x*v2.y - v1.y*v2.x);
 
-	if(a_normal.x == -1) // top-left
+	if(a_normal.x < 0) // Start point
 	{
-		// Cap at start
-		if( p0 == p1 )
+		if(p0 == p1) // start cap
 		{
-			p = p1 - w*v1 + a_normal.y * w*n1;
-			v_texcoord = vec2(a_startLength-w, a_normal.y * w);
-		// Regular join
+			p = p1 + a_normal.y * w * n1;
+			v_texcoord = vec2(a_startLength, a_normal.y * w);
 		}
 		else
 		{
-			p = p1 + a_normal.y * length_a * miter_a;
-			if(d0 == 1 && a_normal.y == -1)
-			{
-				p -= 2 * w / dot(v0, n1) * v1;
-			}
-			else if(d0 == -1 && a_normal.y == 1)
-			{
-				p += 2 * w / dot(v0, n1) * v1;
-			}
+			float dx = abs(2 * w / dot(v0, n1));
+			p = p1 + a_normal.y * miter_a * length_a;
+			v_texcoord = vec2(a_startLength + compute_u(p1, p2, p), a_normal.y * w);
 
-			v_texcoord = vec2(a_startLength + compute_u(p1,p2,p), a_normal.y * w);
+			// Improve later
+			//p -= (d0 * a_normal.y == -1) ? dx * v1 : vec2(0, 0);
 		}
 
-		v_caps.x = 0.0;
-		if( p0 == p1 )
-		{
-			v_caps.y = 	line_distance(p2, p3, p1) + w;
-		}
-		else if( p2 == p3 )
-		{
-			v_caps.y = v_texcoord.x;
-		}
-
-		gl_Position = vec4(2*p/resolution - 1, 0.0, 1.0);
-
-		v_bevel_distance.x = a_normal.y * d0 * line_distance(p1+d0*n0*w, p1+d0*n1*w, p);
-		v_bevel_distance.y =    -line_distance(p2+d1*n1*w, p2+d1*n2*w, p);
+		if( p2 == p3 ) v_caps.y = v_texcoord.x;
+		else           v_caps.y = 1.0;
 	}
-	else
+	else // End point
 	{
-		// Cap at end
-		if( p2 == p3 )
+		if(p2 == p3) // end cap
 		{
-			p = p2 + w*v1 + a_normal.y * w*n1;
-			v_texcoord = vec2(a_startLength + v_length+w, a_normal.y *w);
-		// Regular join
-		} 
-		else
-		{
-			p = p2 + a_normal.y *length_b * miter_b;
-			if(d0 == 1 && a_normal.y == -1)
-			{
-				p -= 2 * w / dot(v0, n1) * v1;
-			}
-			else if(d0 == -1 && a_normal.y == 1)
-			{
-				p += 2 * w / dot(v0, n1) * v1;
-			}
-		}
-
-		v_caps.y = 0.0;
-		if( p0 == p1 )
-		{
-			v_caps.x = v_texcoord.x;
+			p = p2 + a_normal.y * w * n1;
+			v_texcoord = vec2(a_startLength + v_length, a_normal.y * w);
 		}
 		else
 		{
-			v_caps.x = line_distance(p0, p1, p2) + w;
+			float dx = abs(2 * w / dot(v1, n2));
+			p = p2 + a_normal.y * miter_b * length_b;
+			v_texcoord = vec2(a_startLength + compute_u(p1, p2, p), a_normal.y * w);
+
+			// Improve later
+			//p += (d1 * a_normal.y == -1) ? dx * v1 : vec2(0, 0);
 		}
 
-		gl_Position = vec4(2*p/resolution - 1, 0.0, 1.0);
-
-		v_bevel_distance.x =    -line_distance(p1+d0*n0*w, p1+d0*n1*w, p);
-		v_bevel_distance.y = a_normal.y *d1*line_distance(p2+d1*n1*w, p2+d1*n2*w, p);
+		if( p0 == p1 ) v_caps.x = v_texcoord.x;
+		else           v_caps.x = 1.0;
 	}
+
+	gl_Position = vec4(2*p/resolution - 1, 0.0, 1.0);
 }

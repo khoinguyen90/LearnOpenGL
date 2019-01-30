@@ -130,7 +130,7 @@ void Polygon::Render()
 	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
 
 	glUniform1f(antialias, 1.5);
-	glUniform1f(linewidth, 10);
+	glUniform1f(linewidth, 70);
 	glUniform1f(miter_limit, -1);
 	glUniform2f(resolution, 800, 800);
 
