@@ -10,8 +10,8 @@ class Polygon : public Model
 private:
 	glm::vec2 p0 { 40, 40 };
 	glm::vec2 p1 { 200, 500 };
-	glm::vec2 p2 { 500, 700 };
-	glm::vec2 p3 { 500, 100 };
+	glm::vec2 p2 { 500, 200 };
+	glm::vec2 p3 { 500, 500 };
 
 	float vertexAttribute[12 * 11] =
 	{

@@ -80,18 +80,32 @@ void main()
 		{
 			p = p1 - w*v1 + a_normal.y * w*n1;
 			v_texcoord = vec2(a_startLength-w, a_normal.y * w);
-			v_caps.x = v_texcoord.x;
 		// Regular join
 		}
 		else
 		{
 			p = p1 + a_normal.y * length_a * miter_a;
+			if(d0 == 1 && a_normal.y == -1)
+			{
+				p -= 2 * w / dot(v0, n1) * v1;
+			}
+			else if(d0 == -1 && a_normal.y == 1)
+			{
+				p += 2 * w / dot(v0, n1) * v1;
+			}
+
 			v_texcoord = vec2(a_startLength + compute_u(p1,p2,p), a_normal.y * w);
-			v_caps.x = 1.0;
 		}
 
-		if( p2 == p3 ) v_caps.y = v_texcoord.x;
-		else           v_caps.y = 1.0;
+		v_caps.x = 0.0;
+		if( p0 == p1 )
+		{
+			v_caps.y = 	line_distance(p2, p3, p1) + w;
+		}
+		else if( p2 == p3 )
+		{
+			v_caps.y = v_texcoord.x;
+		}
 
 		gl_Position = vec4(2*p/resolution - 1, 0.0, 1.0);
 
@@ -105,17 +119,30 @@ void main()
 		{
 			p = p2 + w*v1 + a_normal.y * w*n1;
 			v_texcoord = vec2(a_startLength + v_length+w, a_normal.y *w);
-			v_caps.y = v_texcoord.x;
 		// Regular join
 		} 
 		else
 		{
 			p = p2 + a_normal.y *length_b * miter_b;
-			v_texcoord = vec2(a_startLength + compute_u(p1,p2,p), a_normal.y *w);
-			v_caps.y = 1.0;
+			if(d0 == 1 && a_normal.y == -1)
+			{
+				p -= 2 * w / dot(v0, n1) * v1;
+			}
+			else if(d0 == -1 && a_normal.y == 1)
+			{
+				p += 2 * w / dot(v0, n1) * v1;
+			}
 		}
-		if( p0 == p1 ) v_caps.x = v_texcoord.x;
-		else           v_caps.x = 1.0;
+
+		v_caps.y = 0.0;
+		if( p0 == p1 )
+		{
+			v_caps.x = v_texcoord.x;
+		}
+		else
+		{
+			v_caps.x = line_distance(p0, p1, p2) + w;
+		}
 
 		gl_Position = vec4(2*p/resolution - 1, 0.0, 1.0);
 

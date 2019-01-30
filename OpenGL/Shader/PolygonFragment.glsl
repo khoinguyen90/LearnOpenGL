@@ -54,6 +54,9 @@ in vec2  v_bevel_distance;
 void main()
 {
 	vec4  color = vec4(1.0, 0.0, 0.0, 1.0);
+	gl_FragColor = color;
+	return;
+
 
     float distance = v_texcoord.y;
 
