@@ -87,7 +87,8 @@ void main()
 			v_texcoord = vec2(a_startLength + compute_u(p1, p2, p), a_normal.y * w);
 
 			// Improve later
-			//p -= (d0 * a_normal.y == -1) ? dx * v1 : vec2(0, 0);
+			p -= (d0 * a_normal.y == -1) ? dx * v1 : vec2(0, 0);
+			v_texcoord.x -= (d0 * a_normal.y == -1) ? dx : 0;
 		}
 
 		if( p2 == p3 ) v_caps.y = v_texcoord.x;
@@ -107,7 +108,8 @@ void main()
 			v_texcoord = vec2(a_startLength + compute_u(p1, p2, p), a_normal.y * w);
 
 			// Improve later
-			//p += (d1 * a_normal.y == -1) ? dx * v1 : vec2(0, 0);
+			p += (d1 * a_normal.y == -1) ? dx * v1 : vec2(0, 0);
+			v_texcoord.x += (d1 * a_normal.y == -1) ? dx : 0;
 		}
 
 		if( p0 == p1 ) v_caps.x = v_texcoord.x;

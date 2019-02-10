@@ -129,8 +129,8 @@ void Polygon::Render()
 	auto miter_limit = glGetUniformLocation(program->ProgramID, "miter_limit");
 	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
 
-	glUniform1f(antialias, 1.5);
-	glUniform1f(linewidth, 70);
+	glUniform1f(antialias, 1);
+	glUniform1f(linewidth, 5);
 	glUniform1f(miter_limit, -1);
 	glUniform2f(resolution, 800, 800);
 
@@ -159,8 +159,17 @@ void Polygon::Render()
 	va.Bind();
 	ib.Bind();
 
-	//glDrawArrays(GL_TRIANGLE_STRIP, 0, 8);
+	// Draw border
 	glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, 0);
+
+	//glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+	//glDepthMask(GL_FALSE);
+	//glStencilFunc(GL_ALWAYS, 0, 0);
+
+	//glStencilOpSeparate(GL_FRONT, GL_KEEP, GL_KEEP, GL_INCR);
+	//glStencilOpSeparate(GL_BACK, GL_KEEP, GL_KEEP, GL_DECR);
+
+	//glDrawArrays(GL_TRIANGLE_STRIP, 0, 8);
 }
 
 void Polygon::TouchEventDown(float x, float y)

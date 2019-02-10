@@ -29,20 +29,36 @@ in vec2  v_caps;
 in vec2  v_texcoord;
 in vec2  v_bevel_distance;
 
+float SDF_fake_box(vec2 p, vec2 size)
+{
+    return max(abs(p.x)-size.x, abs(p.y)-size.y);
+}
+
 void main()
 {
 	vec4  color = vec4(1.0, 0.0, 0.0, 1.0);
+	//gl_FragColor = color; return;
 
-    float distance = v_texcoord.y;
+	float phase = -linewidth * 3;
+	float spacing = 12;
+    float center = v_texcoord.x + spacing/2.0*linewidth
+                 - mod(v_texcoord.x + phase + spacing/2.0*linewidth, spacing*linewidth);
 
-    if(v_texcoord.x <= 4*antialias && antialias < abs(v_texcoord.y - sign(v_texcoord.y) * linewidth/2))
+	vec2 size = vec2(3 * linewidth - antialias, linewidth/2);
+	float d = SDF_fake_box(v_texcoord - vec2(center, 0), size);
+
+	float distance = v_texcoord.y;
+	
+	if(abs(v_texcoord.x - center) >= 3 *linewidth)
 	{
-		distance =  antialias - v_texcoord.x;
-		distance = distance/antialias;
-		gl_FragColor = vec4(color.xyz, exp(-distance * distance));
-		return;
+		discard;
 	}
 
+	if(d <= antialias)
+	{
+		distance = d + linewidth/2;
+	}
+	
     // Round join (instead of miter)
     if (v_texcoord.x < v_startLength)
     {
@@ -52,6 +68,8 @@ void main()
     {
         distance = length(v_texcoord - vec2(v_startLength + v_length, 0.0));
     }
-
+	
     gl_FragColor = stroke(distance, linewidth, antialias, color);
+
+
 }
