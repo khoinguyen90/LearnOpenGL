@@ -25,7 +25,7 @@ void Renderer::createModels()
 	clearModels();
 
 	//Add your custom models here.
-	addModel( new Polygon( this ) );
+	addModel( new Triangle( this ) );
 }
 
 /*!

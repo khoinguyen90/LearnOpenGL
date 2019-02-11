@@ -8,14 +8,23 @@
 class Triangle : public Model
 {
 private:
-	GLfloat vertexAttribute[12] = {
-		// Position		// color
+	GLfloat vertexAttribute[18] = {
+		// Position
 		 0.5f,  0.5f,
 		-0.5f,  0.5f,
 		-0.5f, -0.5f,
-		 0.5f,  0.5f,
+
+		-0.5f,  0.5f,
 		-0.5f, -0.5f,
-		 0.5f, -0.5f
+		0.5f, -0.5f,
+
+		0.5f,  0.5f,
+		-0.5f,  0.5f,
+		-0.5f, -0.5f,
+		
+		//0.5f,  0.5f,
+		//-0.5f, -0.5f,
+		// 0.5f, -0.5f
 	};
     GLuint positionAttribHandle;
     GLuint colorAttribHandle;

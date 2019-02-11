@@ -24,16 +24,6 @@
 using std::ifstream;
 using std::ostringstream;
 
-//GLfloat vertexAttribute[] = {
-//	// Position		// color
-//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 0.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 1.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 0.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 0.0f, 1.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 0.0f, 10.0f,
-//	100.0f, 50.0f, 200.0f, 350.0f, 1.0f, 1.0f, 10.0f,
-//};
-
 // Global Object Declaration
 
 /*!
@@ -122,41 +112,43 @@ void Triangle::InitModel()
 void Triangle::Render()
 {
     glUseProgram( program->ProgramID );
-
-    //radian = degree++/57.2957795;
-    
-    // Query and send the uniform variable.
-    //radianAngle          = glGetUniformLocation(program->ProgramID, "RadianAngle");
-    //glUniform1f(radianAngle, radian);
-
 	auto resolution = glGetUniformLocation(program->ProgramID, "resolution");
-	//auto antialias = glGetUniformLocation(program->ProgramID, "antialias");
-	//
 	glUniform2f(resolution, 800.0f, 600.0f);
-	//glUniform1f(antialias, 4.0f);
-
-    //positionAttribHandle = ProgramManagerObj->ProgramGetVertexAttribLocation(program,(char*)"VertexPosition");
-	//colorAttribHandle    = ProgramManagerObj->ProgramGetVertexAttribLocation(program, (char*)"VertexColor");
     
 	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
-	//layout.Push<float>(2);
-	//layout.Push<float>(2);
-	//layout.Push<float>(1);
+
 	VertexArray va;
 	va.AddBuffer(vb, layout);
-	
 	va.Bind();
 
+	// Disable color and depth writing
+	glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+	//glDepthMask(GL_FALSE);
+	glStencilFunc(GL_ALWAYS, 0, 0);
 
-	//glEnableVertexAttribArray(positionAttribHandle);
-	//glEnableVertexAttribArray(colorAttribHandle);
+	glStencilOpSeparate(GL_FRONT, GL_KEEP, GL_KEEP, GL_INCR);
+	//glStencilOpSeparate(GL_BACK, GL_KEEP, GL_KEEP, GL_DECR);
 
-	//glVertexAttribPointer(positionAttribHandle, 2, GL_FLOAT, false, 0, gTriangleVertices);
-	//glVertexAttribPointer(colorAttribHandle, 3, GL_FLOAT, false, 0, gTriangleColors);
+    glDrawArrays(GL_TRIANGLES, 0, 9);
 
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+	// Enable color and depth writing
+	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+	//glDepthMask(GL_TRUE);
+
+	// odd
+	glStencilFunc(GL_EQUAL, 0x01, 0x1);
+
+	// non zero
+	// gl.glStencilFunc(gl.GL_NOTEQUAL, 0x00, 0xff)
+
+	// positive
+	// gl.glStencilFunc(gl.GL_LESS, 0x0, 0xff)
+
+	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+
+	glDrawArrays(GL_TRIANGLES, 0, 9);
 }
 
 void Triangle::TouchEventDown(float x, float y)

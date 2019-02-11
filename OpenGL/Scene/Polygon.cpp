@@ -145,7 +145,7 @@ void Polygon::Render()
 		9, 10, 11,
 	};
 	IndexBuffer ib{ indexBuffer , 6 * 3 };
-	VertexBuffer vb{ vertexAttribute , sizeof(vertexAttribute) };
+	VertexBuffer vb{ vertexBorder , sizeof(vertexBorder) };
 	VertexBufferLayout layout;
 	layout.Push<float>(2);
 	layout.Push<float>(2);
@@ -170,6 +170,21 @@ void Polygon::Render()
 	//glStencilOpSeparate(GL_BACK, GL_KEEP, GL_KEEP, GL_DECR);
 
 	//glDrawArrays(GL_TRIANGLE_STRIP, 0, 8);
+
+	// Enable color and depth writing
+	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+	glDepthMask(GL_TRUE);
+
+	// odd
+	glStencilFunc(GL_EQUAL, 0x01, 0x1);
+
+	// non zero
+	// gl.glStencilFunc(gl.GL_NOTEQUAL, 0x00, 0xff)
+
+	// positive
+	// gl.glStencilFunc(gl.GL_LESS, 0x0, 0xff)
+
+	glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
 }
 
 void Polygon::TouchEventDown(float x, float y)
@@ -181,9 +196,9 @@ void Polygon::TouchEventDown(float x, float y)
 
 void Polygon::TouchEventMove(float x, float y)
 {
-	vertexAttribute[1 * 2 + 0] = 0.0; vertexAttribute[1 * 2 + 1] = 1.0; vertexAttribute[1 * 2 + 2] = 0.0;
-	vertexAttribute[2 * 2 + 3] = 0.0; vertexAttribute[2 * 2 + 4] = 1.0; vertexAttribute[2 * 2 + 5] = 0.0;
-	vertexAttribute[3 * 2 + 6] = 0.0; vertexAttribute[3 * 2 + 7] = 1.0; vertexAttribute[3 * 2 + 8] = 0.0;
+	vertexBorder[1 * 2 + 0] = 0.0; vertexBorder[1 * 2 + 1] = 1.0; vertexBorder[1 * 2 + 2] = 0.0;
+	vertexBorder[2 * 2 + 3] = 0.0; vertexBorder[2 * 2 + 4] = 1.0; vertexBorder[2 * 2 + 5] = 0.0;
+	vertexBorder[3 * 2 + 6] = 0.0; vertexBorder[3 * 2 + 7] = 1.0; vertexBorder[3 * 2 + 8] = 0.0;
 }
 
 void Polygon::TouchEventRelease(float x, float y)
